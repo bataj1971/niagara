@@ -1,0 +1,40 @@
+// COLORS
+$color-primary: #461;
+$color-primary-light: lighten($color-primary ,20%) ;
+$color-primary-dark: darken($color-primary ,20%) ;
+
+$color-secondary: #27a;
+$color-secondary-light: lighten($color-secondary ,25%) ;
+$color-secondary-dark: darken($color-secondary ,25%) ;
+
+$color-tertiary: #da8;
+$color-tertiary-light: lighten($color-tertiary ,25%) ;
+$color-tertiary-dark: darken($color-tertiary ,25%) ;
+
+$color-grey: #aaa;
+$color-grey-light: lighten($color-grey ,25%) ;
+$color-grey-dark: darken($color-grey ,25%) ;
+
+$color-white: #fff;
+$color-black: #000;
+
+
+// DESKTOP
+
+$dekstopHeaderColor:$color-secondary;
+$desktopHeaderHeight: 60px;
+$desktopMenuBarHeight: 30px;
+$desktopTrayBarHeight: 30px;
+$desktopFooterHeight: 30px;
+
+
+// WINDOW
+$windowHeaderHeihgt: 35px;
+$windowFooterheight: 25px;
+$windowHeaderColour:$color-primary; /* #574; */
+$windowHeaderActiveColour: $color-primary-light; /* #7a3; */
+$windowBorderRadius :3px;
+
+// MENU
+
+  

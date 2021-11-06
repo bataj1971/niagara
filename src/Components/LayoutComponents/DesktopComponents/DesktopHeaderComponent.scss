@@ -1,0 +1,35 @@
+@import "../../../scss/variables";
+
+  desktop-header-component {
+    position: absolute;
+    background-color: $dekstopHeaderColor;
+    color: white;
+    top: 0;
+    height: $desktopHeaderHeight;
+    left: 0;
+    right: 0;
+
+    desktop-header-title {
+      padding: 10px;
+      display: inline-block;
+      font-size: 1.4em;
+      color:white;
+
+    }
+    desktop-header-hamburger-icon {
+      color:white;
+      font-size: 1.7em;
+      float:right;
+      cursor: pointer;
+      border-radius: $windowBorderRadius;
+      padding: 5px;;
+      &:hover {
+        background-color:rgba(white,0.4);
+      }
+      display: none;
+    }
+  }
+
+.mobile desktop-header-hamburger-icon {
+  display: inline-block ;
+} 

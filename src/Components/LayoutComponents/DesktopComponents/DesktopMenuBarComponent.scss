@@ -1,0 +1,50 @@
+@import "../../../scss/variables";
+
+  desktop-menu-bar-component {
+    position: absolute;
+    background-color: #444;
+    color: white;
+    top: $desktopHeaderHeight;
+    height: $desktopMenuBarHeight;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+
+  menu-item {
+      display: inline-block;
+      padding: 0px;
+      background-color: #579;
+      cursor: pointer;
+      height:$desktopMenuBarHeight; 
+      margin:0 2px 0 0 ;
+      animation: fadein 1s;    
+      & > menu-item-label {
+        display: inline-block;
+        padding:5px;
+        height:100%;
+      } 
+      &:hover {
+        background-color: #79a;
+      }
+      &>menu-submenu {          
+          position:absolute; display:none;  margin: 0px 0px 0px 0px  ; 
+          
+      }
+      &:hover>menu-submenu,
+      &.active>menu-submenu
+      {
+          display: block;                
+      }
+
+      & > menu-submenu > menu-item {
+        display: block;                
+      }
+
+      & > menu-submenu > menu-item > menu-submenu {
+          display:none;  position:absolute; float:right; top:0px; left:200px;
+      }
+
+
+
+  }

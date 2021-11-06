@@ -1,0 +1,46 @@
+@import "../../../scss/variables";
+
+window-data-grid {
+    
+    display: block;
+    width:100%;
+    border:solid 1px #ddd;
+    min-height: 100px;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+    
+    /* background-color: #ddd; */ 
+    font-size: 0.8em;
+    border-collapse: collapse;
+
+    & window-data-grid-header {
+        display : table-row;
+        background-color: #ddd;
+        color:#357;
+        position: sticky;
+        top:0px;
+        width:100%;
+        & window-data-grid-header-cell {
+            padding: 5px;;
+            display: table-cell;
+            border:solid 1px #bbb;
+            font-weight: bold;
+        }
+    }
+
+
+    & window-data-grid-row {
+        width:100%;
+        &.active, 
+        &:hover {
+            background-color: #ffa;
+        }    
+        display : table-row;
+        & window-data-grid-row-cell {
+            padding: 5px;;
+            display: table-cell;
+            border:solid 1px #bbb;
+        }
+    }
+}

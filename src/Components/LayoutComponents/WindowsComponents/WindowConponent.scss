@@ -1,0 +1,167 @@
+@import "../../../scss/variables";
+
+window-component {
+  background-color: #eee;
+
+  display: block;
+  position: absolute;
+  width: 200px;
+  height: 150px;
+  left: 30px;
+  top: 140px;
+
+  border-radius: 5px;
+
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease-in-out;
+  animation: fadeOut 500ms;
+
+  overflow: hidden;
+
+  window-header {
+    cursor: pointer;
+    background-color: $windowHeaderColour;
+    background-image: linear-gradient( lighten( $windowHeaderColour,20%) , $windowHeaderColour);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: $windowHeaderHeihgt;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch;
+    position: absolute;
+
+    color: #ddd;
+    padding: 2px;
+    border-radius: 5px 5px 0 0;
+    user-select: none;
+  }
+  window-header window-header-title {
+    color: white;
+    background-color: transparent;
+    padding: 5px;
+    padding-left: 5px;
+    flex-grow: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  window-content {
+    /* background-color: cadetblue;*/
+
+    position: absolute;
+    top: $windowHeaderHeihgt;
+    bottom: $windowFooterheight;
+    left: 0;
+    right: 0;
+    border: solid 1px #ddd;
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  window-footer {
+    background-color: #ddd;
+    color: #777;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: $windowFooterheight;
+    user-select: none;
+  }
+
+  window-buttons {
+    float: right;
+    padding: 2px;
+    window-button-close,
+    window-button-minimize,
+    window-button-maximize,
+    window-button-restore {
+      display: inline-block;
+      /* background-color: #579; */
+      color: white;
+
+      font-size: 1em;
+      border-radius: 3px;
+      line-height: 1.2em;
+
+      cursor: pointer;
+      padding: 2px 0px;
+      margin: 0px 0px 0px 5px;
+      width: 30px;
+      text-align: center;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+    }
+    window-button-close {
+      color: white;
+    }
+    window-button-minimize {
+      color: white;
+    }
+    window-button-maximize {
+      color: white;
+    }
+    window-button-restore {
+      display: none;
+    }
+  }
+
+  &.minimized {
+    display: none;
+  }
+
+  window-footer-resize-action {
+    background-color: gray;
+    position: absolute;
+    left: 100%;
+    top: 100%;
+    transform: translate3d(-50%, -50%, 0) rotateZ(45deg);
+    border-style: solid;
+    border-width: 8px;
+    border-color: transparent transparent transparent #bbb;
+    &:hover,
+    &:active {
+      cursor: nwse-resize;
+      background-color: light-gray;
+    }
+  }
+
+  &.active {
+    window-header {
+      background-color: $windowHeaderActiveColour;
+      color: white;
+    }
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+  }
+  &.maximized,
+  .mobile & {
+    top: 0px !important;
+    left: 0px !important;
+    right: 0px !important;
+    bottom: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0;
+    box-shadow: none;
+
+    window-header {
+      border-radius: 0;
+    }
+    window-button-restore {
+      display: inline-block;
+    }
+    window-button-maximize {
+      display: none;
+    }
+    window-footer-resize-action {
+      display: none;
+    }
+    
+  }
+}

@@ -1,0 +1,12 @@
+@import "../../../scss/variables";
+
+desktop-footer-component {  
+  
+  position: absolute;
+  height: $desktopFooterHeight;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #999;
+  color: #666;
+}

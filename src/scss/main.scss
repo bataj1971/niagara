@@ -1,0 +1,24 @@
+
+html {
+    // This defines what 1rem is
+    font-size: 100%;
+}
+
+
+* {
+ box-sizing: border-box; 
+ font-family: Arial, Helvetica, sans-serif;
+}
+
+test-component {
+    background-color: blue;
+    min-height: 100px;
+    min-width: 100px;
+    padding:20px;
+}
+test-parent-component {
+    background-color: lightgreen;
+    min-height: 300px;
+    min-width: 300px;
+    padding:20px;
+}
