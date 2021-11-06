@@ -1,6 +1,7 @@
 import { ResizableMovableComponent } from "../../BaseComponents/ResizableMovableComponent";
 import { DesktopComponent } from "../DesktopComponents/DesktopComponent";
 import "./WindowConponent.scss";
+import { WindowContent } from "./WindowContent";
 
 enum WINDOWMODE {
   MAXIMIZED,
@@ -10,7 +11,7 @@ enum WINDOWMODE {
 
 export class WindowConponent extends ResizableMovableComponent {
   static ID_COUNTER = 0;
-  private id :number = 0;
+  private id: number = 0;
   private title = "Untitled";
   private desktopComponent: DesktopComponent;
 
@@ -33,14 +34,14 @@ export class WindowConponent extends ResizableMovableComponent {
   private windowMinimized = false;
 
   // private trayBarItem;
-  // private windowContent;
+  protected windowContent: WindowContent;
 
   constructor(desktop: DesktopComponent) {
     super("window-component");
     this.desktopComponent = desktop;
     this.id = ++WindowConponent.ID_COUNTER;
-    console.log('Window creating with id:', this.id, this);
-    
+    console.log("Window creating with id:", this.id, this);
+
     this.windowElement = this.domElement;
     const winPosShift = this.id % 10;
     this.setPos({ x: winPosShift * 60, y: winPosShift * 50 });
@@ -106,7 +107,8 @@ export class WindowConponent extends ResizableMovableComponent {
     // body
     // this.#windowBodyElement = document.createElement("window-body");
     // this.#windowElement.append(this.#windowBodyElement);
-    // this.windowContent = new WindowContent(this);
+    this.windowContent = new WindowContent();
+    this.addChild(this.windowContent);
 
     // footer
     this.windowFooterElement = document.createElement("window-footer");

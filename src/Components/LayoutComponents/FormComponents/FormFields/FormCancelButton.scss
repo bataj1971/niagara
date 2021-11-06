@@ -1,0 +1,8 @@
+@import "../../../scss/variables";
+form-cancel-button {
+    background-color: #a33;
+    
+    &:hover {
+        background-color: #a55;
+    }    
+}

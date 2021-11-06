@@ -1,0 +1,12 @@
+@import "../../../scss/variables";
+
+related-id-name-input {
+    input.id {
+        width:30px;
+    }
+    input.name {
+        width:calc(100% - 30px);
+    }
+    label {
+    }
+}

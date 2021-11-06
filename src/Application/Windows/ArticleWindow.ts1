@@ -1,15 +1,15 @@
-import { Window } from "../components/DesktopComponents/WindowComponents/Window";
+import { WindowConponent } from "../../Components/LayoutComponents/WindowsComponents/WindowConponent";
 
-import { WindowForm } from "../components/FormComponents/WindowForm";
-import { TextInput } from "../components/FormComponents/Fields/TextInput";
-import { IntegerInput } from "../components/FormComponents/Fields/IntegerInput";
-import { DateInput } from "../components/FormComponents/Fields/DateInput";
-import { DateTimeInput } from "../components/FormComponents/Fields/DateTimeInput";
-import { RelatedIdNameInput } from "../components/FormComponents/Fields/RelatedIdNameInput";
+// import { WindowForm } from "../components/FormComponents/WindowForm";
+// import { TextInput } from "../components/FormComponents/Fields/TextInput";
+// import { IntegerInput } from "../components/FormComponents/Fields/IntegerInput";
+// import { DateInput } from "../components/FormComponents/Fields/DateInput";
+// import { DateTimeInput } from "../components/FormComponents/Fields/DateTimeInput";
+// import { RelatedIdNameInput } from "../components/FormComponents/Fields/RelatedIdNameInput";
 
-class ArticleWindow extends Window {
-    constructor(parent) {
-        super(parent);
+class ArticleWindow extends WindowConponent {
+    constructor(desktop : DesktopComponent) {
+        super(desktop);
         this.setWindowTitle('Article');
         
         this.renderContent();

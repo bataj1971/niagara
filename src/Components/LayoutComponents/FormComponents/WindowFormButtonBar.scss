@@ -1,0 +1,39 @@
+@import "../../scss/variables";
+
+window-form-button-bar {
+    width:calc(100% - 10px);
+    background-color: rgba($color-secondary-dark, 0.5);
+    
+    border-radius: $windowBorderRadius;
+    position: sticky;
+    height:35px;
+    padding: 5px;
+    bottom:0px;
+    display: block;
+
+    max-width: 600px;
+    margin: 10px auto 10px auto;
+    
+    & > * {
+        display: block;
+        width:120px;
+        float:right;
+        margin-left:5px;
+        background-color: #357;
+        border-radius: $windowBorderRadius;
+        &:hover {
+            background-color: #579;
+        }
+        
+        & > button {
+            width:100%;
+            border: none;
+            background-color: transparent;
+            display: block;
+            color:white;
+        }
+    }
+
+
+
+}

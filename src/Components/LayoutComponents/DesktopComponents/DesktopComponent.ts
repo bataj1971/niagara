@@ -6,7 +6,7 @@ import { DesktopHeaderComponent } from "./DesktopHeaderComponent";
 import { DesktopMenuBarComponent } from "./DesktopMenuBarComponent";
 import { DesktopFooterComponent } from "./DesktopFooterComponent";
 import { DesktopTrayBarComponent } from "./DesktopTrayBarComponent";
-import { WindowFactory } from "../../CustomComponents/SystemSettings/WindowFactory";
+import { WindowFactory } from "../../../Application/SystemSettings/WindowFactory";
 import { WindowConponent } from "../WindowsComponents/WindowConponent";
 import { DesktopWindowContainer } from "./DesktopWindowContainer";
 import { DesktopMessagesComponent } from "./DesktopMessagesComponent";

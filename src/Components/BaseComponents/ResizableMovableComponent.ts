@@ -26,8 +26,7 @@ export class ResizableMovableComponent extends BaseComponent {
   private moveGrabElement?: HTMLElement;
   private resizeGrabElement?: HTMLElement;
 
-  private dragStatus = 0;
-  private windowMode = 1;
+  private dragStatus = 0;  
   private currentMousePos = {
     mousex: 0,
     mousey: 0,
