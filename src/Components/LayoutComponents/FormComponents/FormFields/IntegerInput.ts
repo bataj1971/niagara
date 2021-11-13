@@ -4,10 +4,10 @@ import { BaseInput } from "./BaseInput";
 
 class IntegerInput extends BaseInput {
 
-    constructor(settings : Object) {
-        super( 'integer-input', 'input', 'number');
+    constructor(settings : object) {
+        super( 'integer-input', 'input', 'number',settings);
         
-        this.processSettings(settings);
+        // this.processSettings(settings);
 
     }
 

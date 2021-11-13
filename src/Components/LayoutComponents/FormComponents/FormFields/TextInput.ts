@@ -4,10 +4,9 @@ import { BaseInput } from "./BaseInput";
 
 class TextInput extends BaseInput {
 
-    constructor(settings : Object) {
-        super('text-input', 'input', 'text');
-        this.processSettings(settings);
-        
+    constructor(settings : object) {
+        super('text-input', 'input', 'text', settings);
+        // this.processSettings(settings);        
     }
 
 }

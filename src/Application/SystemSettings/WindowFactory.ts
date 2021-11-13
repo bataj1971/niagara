@@ -4,7 +4,10 @@
 
 import { DesktopComponent } from "../../Components/LayoutComponents/DesktopComponents/DesktopComponent";
 import { WindowConponent } from "../../Components/LayoutComponents/WindowsComponents/WindowConponent";
+import { ArticleWindow } from "../Windows/ArticleWindow";
+import { CurrencyWindow } from "../Windows/CurrencyWindow";
 import { CustomerWindow } from "../Windows/CustomerWindow";
+import { UserWindow } from "../Windows/UserWindow";
 
 // import { CurrencyWindow } from "./CurrencyWindow";
 class WindowFactory {
@@ -14,24 +17,24 @@ class WindowFactory {
 
         switch (type) {
             case 'user':
-                //window = new UserWindow();
+                window = new UserWindow(desktop);
                 break;
             case 'article':
-                // window = new ArticleWindow();
+                window = new ArticleWindow(desktop);
                 break;
             case 'customer':
-                // window = new CustomerWindow(desktop);
+                window = new CustomerWindow(desktop);
                 break;
             case 'currency':
-                // window = new CurrencyWindow();
+                window = new CurrencyWindow(desktop);
                 break;
 
             default:
-                
-                // alert('invalid window type:'+type);
+                window = new WindowConponent(desktop);
+                alert('invalid window type:'+type);
                 break;
         }
-        window = new CustomerWindow(desktop);
+        
         return window;
     }
     

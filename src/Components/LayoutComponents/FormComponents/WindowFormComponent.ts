@@ -15,6 +15,7 @@ export class WindowFormComponent extends BaseComponent {
 
   constructor() {
     super("window-form");
+    this.setDisplayMode('grid');
     this.buttonBar = new WindowFormButtonBar();
     // this.buttonBar = new WindowFormButtonBar(this.parent);
     this.formSaveButton = new FormSaveButton();
@@ -51,6 +52,7 @@ export class WindowFormComponent extends BaseComponent {
   dummyCallbackFunction() {
     console.error("Callback function not set for WindowForm: ", this.getParentType());
   }
+  
 }
 
 

@@ -1,0 +1,13 @@
+@import "../../../../scss/variables";
+
+dropdown-input {
+  select {
+    border-radius: $windowBorderRadius;
+    padding: 5px;
+    display: inline-block;
+    border: solid 1px #ddd;
+    width: 100%;
+  }
+  label {
+  }
+}

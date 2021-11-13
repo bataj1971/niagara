@@ -4,9 +4,9 @@ import { BaseInput } from "./BaseInput";
 
 class DateTimeInput extends BaseInput {
 
-    constructor(settings : Object) {
-        super( 'date-time-input', 'input', 'datetime-local');
-        this.processSettings(settings);
+    constructor(settings : object) {
+        super( 'date-time-input', 'input', 'datetime-local', settings);
+        // this.processSettings(settings);
     }
 
 }

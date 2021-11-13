@@ -1,11 +1,18 @@
 import { BaseComponent } from "../../BaseComponents/BaseComponent";
 import "./WindowDataGridComponent.scss";
 
-export type ColumnType = {
-  label: string;
+export type DataGridDefinitionType = {
+  width?: string;
+  height?: string;
+  columns: ColumnDefinitionType[];
+};
+
+export type ColumnDefinitionType = {
+  label: string ;
   dataField?: string;
-  defaultValue: string;
-  evaluateFunction?: (row: any) => string;
+  defaultValue?: any;
+  align?: string;
+  evaluateFunction?: (row: Map<string, any>) => string;
   width?: string;
   type?: string;
 };
@@ -14,7 +21,7 @@ export class WindowDataGrid extends BaseComponent {
   private dataSet: Array<Map<string, any>> = [];
   private currentRow: number = 0;
   private currentRowIndex: number = 0;
-  private columns: Array<ColumnType> = [];
+  private columns: Array<ColumnDefinitionType> = [];
   private options = {
     minheight: 200,
     columns: [],
@@ -39,7 +46,7 @@ export class WindowDataGrid extends BaseComponent {
 
   setData(data: Array<Map<string, any>>) {
     this.dataSet = data;
-    console.log("DataGRID --------------- setData ", data);
+    // console.log("DataGRID --------------- setData ", data);
   }
 
   handleKeyDown(e: KeyboardEvent) {
@@ -70,18 +77,49 @@ export class WindowDataGrid extends BaseComponent {
 
       this.domElement.append(gridRowElement);
 
+      // console.log('dataGRID - row:',dataRow);
+      
       for (const column of this.columns) {
+        // console.log("datagrid column:", column);
         const gridCellElement = document.createElement(
           "window-data-grid-row-cell"
         );
 
-        if (column.dataField) {
-          gridCellElement.innerHTML = dataRow.get(column.dataField);
-        } else if (column.evaluateFunction) {
-            gridCellElement.innerHTML = column.evaluateFunction(dataRow);
+        let cellValue = '';
+
+        if (column.evaluateFunction) {
+          cellValue = column.evaluateFunction(dataRow);
+        } else if (column.dataField) {
+          cellValue = dataRow.get(column.dataField);
+        } else if (column.defaultValue) {
+          cellValue = column.defaultValue;
         }
+
+        // formatting vith type
+        if (column.type) {
+          cellValue = this.formatValue(cellValue, column.type);
+        }
+
+        gridCellElement.innerHTML = cellValue;
+
         gridRowElement.append(gridCellElement);
       }
     }
   }
+
+  formatValue(value: any, type: string): string {
+      let formattedValue = value;
+      switch (type) {
+        case "date":
+          const dateValue = new Date(value);
+          formattedValue = dateValue.toLocaleDateString();
+          break;
+        case "number":
+          const numberValue = +value;
+          formattedValue = numberValue.toLocaleString();
+          break;
+      }
+      return formattedValue;
+    }
+
 }

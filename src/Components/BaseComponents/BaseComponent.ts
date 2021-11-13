@@ -58,4 +58,7 @@ export class BaseComponent {
   getVisible(): boolean {
     return this.visible;
   }
+  setDisplayMode(newDisplayMode : string) {
+    this.displayMode = newDisplayMode;
+  }
 }

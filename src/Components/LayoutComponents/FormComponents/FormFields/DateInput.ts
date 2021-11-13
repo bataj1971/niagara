@@ -4,7 +4,7 @@ import { BaseInput } from "./BaseInput";
 
 class DateInput extends BaseInput {
     
-        constructor(settings : Object) {
+        constructor(settings : object) {
             super('date-input', 'input', 'date');
             this.processSettings(settings);
 

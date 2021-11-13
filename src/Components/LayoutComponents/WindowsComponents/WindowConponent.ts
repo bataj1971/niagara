@@ -11,13 +11,13 @@ enum WINDOWMODE {
 
 export class WindowConponent extends ResizableMovableComponent {
   static ID_COUNTER = 0;
-  private id: number = 0;
+  private readonly id: number = 0;
   private title = "Untitled";
   private desktopComponent: DesktopComponent;
 
   private footermessage = "";
   private windowVisible = false;
-  private windowElement;
+  private readonly windowElement;
   private windowHeaderElement: HTMLElement;
   private windowHeaderTitleElement: HTMLElement;
   // private windowContainerElement: HTMLElement;

@@ -6,7 +6,7 @@ class RelatedIdNameInput extends BaseInput {
     private nameInputElement : HTMLElement;
 
     constructor( settings :Object) {
-        super('related-id-name-input', 'input', 'text');
+        super('related-id-name-input', 'input', 'text', settings);
 
         this.nameInputElement = document.createElement('input');
         (this.nameInputElement as HTMLInputElement) .type = 'text';
@@ -16,7 +16,7 @@ class RelatedIdNameInput extends BaseInput {
         
         
         Object.assign(settings, { columns :12});
-        this.processSettings(settings);
+        // this.processSettings(settings);
     }
 
 }
