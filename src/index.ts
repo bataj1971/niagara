@@ -9,3 +9,6 @@ const desktop = new DesktopComponent();
 
 // const testComponent = desktop.addChild(new WindowConponent(desktop));
 desktop.addWindow("customer");
+desktop.addWindow("user");
+desktop.addWindow("currency");
+desktop.addWindow("article");

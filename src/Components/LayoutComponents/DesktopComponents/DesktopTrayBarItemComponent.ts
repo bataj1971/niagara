@@ -25,7 +25,7 @@ export class DesktopTrayBarItemComponent extends BaseComponent {
   }
 
   setActiveStatus(active = false) {
-    // console.log('DesktopTrayBarItem setActiveStatus', this.#window.getId(), active);
+    console.log('DesktopTrayBarItem setActiveStatus', this.window.getId(), active);
     if (active) {
       this.domElement.classList.add("active");
     } else {

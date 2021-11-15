@@ -1,5 +1,6 @@
 import { ResizableMovableComponent } from "../../BaseComponents/ResizableMovableComponent";
 import { DesktopComponent } from "../DesktopComponents/DesktopComponent";
+import { DesktopTrayBarItemComponent } from "../DesktopComponents/DesktopTrayBarItemComponent";
 import "./WindowConponent.scss";
 import { WindowContent } from "./WindowContent";
 
@@ -33,7 +34,7 @@ export class WindowConponent extends ResizableMovableComponent {
   private windowStatus: WINDOWMODE = WINDOWMODE.FLOATING;
   private windowMinimized = false;
 
-  // private trayBarItem;
+  private trayBarItem?: DesktopTrayBarItemComponent;
   protected windowContent: WindowContent;
 
   constructor(desktop: DesktopComponent) {
@@ -199,6 +200,10 @@ export class WindowConponent extends ResizableMovableComponent {
     this.windowElement.classList.remove("minimized");
   }
 
+  addTrayBarItem(trayBarItem : DesktopTrayBarItemComponent) {
+    this.trayBarItem = trayBarItem;
+  }
+  
   setActiveStatus(active = false) {
     // console.log('setActiveStatus', this.#id, active);
     if (active) {
@@ -213,17 +218,24 @@ export class WindowConponent extends ResizableMovableComponent {
     }
 
     // sync trybar active status
-    // if (this.trayBarItem) {
-    //   this.trayBarItem.setActiveStatus(active);
-    // }
+    if (this.trayBarItem) {
+      this.trayBarItem.setActiveStatus(active);
+    }
   }
+
   getId() {
     return this.id;
   }
+
   getTitle() {
     return this.title;
   }
+
   isActive() {
     return this.windowIsAcive;
+  }
+
+  close() {
+    this.domElement.remove();
   }
 }
