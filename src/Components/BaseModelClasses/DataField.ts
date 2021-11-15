@@ -19,16 +19,17 @@ export class DataField {
     this.defaultValue = defaultValue;
   }
 
-  validate(): boolean {
+  public validate(): boolean {
     if (this.required) return true;
     if (!this.value) return false;
     return true;
   }
 
-  setValue(value: string | number | boolean) {
+  public setValue(value: string | number | boolean) {
     this.value = value;
   }
-  setDefaultValue() {
+
+  public setDefaultValue() {
     this.value = this.defaultValue;
   }
 }

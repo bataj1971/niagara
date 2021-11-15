@@ -37,14 +37,14 @@ export class WindowModuleLister extends WindowConponent {
     this.addFormFields();
   }
 
-  addFormFields() {
+  protected addFormFields() {
     console.error(
       "WindowModuleLister addFormFields() should be implemented",
       this
     );
   }
 
-  setWindowMode(mode: VIEWMODE) {
+  protected setWindowMode(mode: VIEWMODE) {
     // TODO some checksHere
     this.windowMode = mode;
     switch (this.windowMode) {
@@ -69,7 +69,7 @@ export class WindowModuleLister extends WindowConponent {
     }
   }
 
-  dataGridSettings(): DataGridDefinitionType {
+  protected dataGridSettings(): DataGridDefinitionType {
     console.error(
       "WindowModuleLister dataGridSettings() should be implemented",
       this

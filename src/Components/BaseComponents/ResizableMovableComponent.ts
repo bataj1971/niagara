@@ -26,7 +26,8 @@ export class ResizableMovableComponent extends BaseComponent {
   private moveGrabElement?: HTMLElement;
   private resizeGrabElement?: HTMLElement;
 
-  private dragStatus = 0;  
+  private dragStatus = 0;
+  
   private currentMousePos = {
     mousex: 0,
     mousey: 0,
@@ -35,6 +36,7 @@ export class ResizableMovableComponent extends BaseComponent {
     width: 0,
     height: 0,
   };
+
   private mouseClick = {
     mousex: 0,
     mousey: 0,
@@ -45,6 +47,7 @@ export class ResizableMovableComponent extends BaseComponent {
   };
 
   private thisWindowMouseMove;
+
   private pos = {
     x: 35,
     y: 40,
@@ -62,7 +65,7 @@ export class ResizableMovableComponent extends BaseComponent {
     window.addEventListener("mouseup", this.windowMouseUp.bind(this));
   }
 
-  setMoveGrabElement(element: HTMLElement) {
+  protected setMoveGrabElement(element: HTMLElement) {
     this.moveGrabElement = element;
     this.moveGrabElement.addEventListener(
       "mousedown",
@@ -70,7 +73,7 @@ export class ResizableMovableComponent extends BaseComponent {
     );
   }
 
-  setResizeGrabElement(element: HTMLElement) {
+  protected setResizeGrabElement(element: HTMLElement) {
     this.resizeGrabElement = element;
     this.resizeGrabElement.addEventListener(
       "mousedown",
@@ -78,11 +81,11 @@ export class ResizableMovableComponent extends BaseComponent {
     );
   }
 
-  windowMouseUp() {
+  private windowMouseUp() {
     this.setDragStatus(DRAGSTATUS.OFF);
   }
 
-  windowMouseDown(newDragStatus: DRAGSTATUS, e: MouseEvent) {
+  private windowMouseDown(newDragStatus: DRAGSTATUS, e: MouseEvent) {
     // e.stopPropagation();
     const pos = this.getPos();
     Object.assign(this.mouseClick, {
@@ -97,7 +100,7 @@ export class ResizableMovableComponent extends BaseComponent {
     this.setDragStatus(newDragStatus);
   }
 
-  windowMouseMove(event: MouseEvent) {
+  private windowMouseMove(event: MouseEvent) {
     event.stopPropagation();
 
     this.currentMousePos.x = event.clientX;
@@ -110,7 +113,7 @@ export class ResizableMovableComponent extends BaseComponent {
     }
   }
 
-  windowMove() {
+  private windowMove() {
     const x =
       this.mouseClick.x + (this.currentMousePos.x - this.mouseClick.mousex);
     const y =
@@ -119,7 +122,7 @@ export class ResizableMovableComponent extends BaseComponent {
     this.setPos({ x, y });
   }
 
-  windowResize() {
+  private windowResize() {
     const thisDomElement = this.getDomElement();
     const width =
       this.mouseClick.width + (this.currentMousePos.x - this.mouseClick.mousex);
@@ -159,7 +162,7 @@ export class ResizableMovableComponent extends BaseComponent {
     this.setPos({ width, height });
   }
 
-  setDragStatus(status: DRAGSTATUS) {
+  private setDragStatus(status: DRAGSTATUS) {
     this.dragStatus = status;
 
     if (this.dragStatus !== DRAGSTATUS.OFF) {
@@ -173,17 +176,17 @@ export class ResizableMovableComponent extends BaseComponent {
     }
   }
 
-  setZ(z = 0) {
+  public setZ(z = 0) {
     this.pos.zindex = z;
     this.setPos();
   }
 
-  getPos() {
+  public getPos() {
     const pos = Object.assign({}, this.pos);
     return pos;
   }
 
-  setPos(settings: Object = {}) {
+  public setPos(settings: Object = {}) {
     Object.assign(this.pos, settings);
 
     const parentDomElement = this.getParentDomElement();
@@ -197,7 +200,8 @@ export class ResizableMovableComponent extends BaseComponent {
     this.pos.height = Math.min(this.pos.height, parentClientRect.height);
     this.pos.width = Math.min(this.pos.width, parentClientRect.width);
 
-    this.pos.y = Math.max(this.pos.y, parentClientRect.y);
+    // this.pos.y = Math.max(this.pos.y, parentClientRect.y);
+    this.pos.y = Math.max(this.pos.y, 0);
     this.pos.x = Math.max(this.pos.x, parentClientRect.x);
 
     this.pos.y = Math.min(

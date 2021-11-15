@@ -1,7 +1,7 @@
 // import { BaseInput } from "../BaseInput";
 import { BaseInput } from "./BaseInput";
 
-class BaseButton extends BaseInput {
+export abstract class BaseButton extends BaseInput {
     constructor(type :string) {        
         super(type, 'button', '');
         this.render();
@@ -21,5 +21,5 @@ class BaseButton extends BaseInput {
         
     }
 }
-export { BaseButton };
+
 

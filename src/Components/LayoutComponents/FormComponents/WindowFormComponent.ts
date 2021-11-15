@@ -32,12 +32,13 @@ export class WindowFormComponent extends BaseComponent {
       .addEventListener("click", this.handleCancelButtonClick.bind(this));
   }
 
-  handleCancelButtonClick(e: MouseEvent) {
+  private handleCancelButtonClick(e: MouseEvent) {
     e.stopPropagation();
     console.log("handleCanceluttonClick");
+    
   }
 
-  handleSaveButtonClick(e: MouseEvent) {
+  private handleSaveButtonClick(e: MouseEvent) {
     e.stopPropagation();
     console.log("handleSaveButtonClick");
   }
@@ -49,7 +50,7 @@ export class WindowFormComponent extends BaseComponent {
 //     this.callBackFunction = callBackFunction;
 //   }
 
-  dummyCallbackFunction() {
+  private dummyCallbackFunction() {
     console.error("Callback function not set for WindowForm: ", this.getParentType());
   }
   

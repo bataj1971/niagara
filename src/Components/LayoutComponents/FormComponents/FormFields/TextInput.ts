@@ -2,7 +2,7 @@ import "./TextInput.scss";
 import { BaseInput } from "./BaseInput";
 
 
-class TextInput extends BaseInput {
+export class TextInput extends BaseInput {
 
     constructor(settings : object) {
         super('text-input', 'input', 'text', settings);
@@ -10,4 +10,3 @@ class TextInput extends BaseInput {
     }
 
 }
-export { TextInput };

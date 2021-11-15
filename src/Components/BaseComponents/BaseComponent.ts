@@ -1,4 +1,4 @@
-export class BaseComponent {
+export abstract class BaseComponent {
   private elementTagName: string;
 
   private parentDomElement?: HTMLElement;
@@ -14,51 +14,52 @@ export class BaseComponent {
     this.domElement = document.createElement(this.elementTagName);
   }
 
-  getDomElement(): HTMLElement {
+  public getDomElement(): HTMLElement {
     return this.domElement;
   }
-  getParentDomElement(): HTMLElement | undefined {
+  public getParentDomElement(): HTMLElement | undefined {
     return this.parentDomElement;
   }
-  getType() {
+  public getType() {
     const typeNme = this.constructor.name;
-    return typeNme;    
+    return typeNme;
   }
-  getParentType(): string {
-    let typeNme = '**no parent component**'
+  public getParentType(): string {
+    let typeNme = "**no parent component**";
     if (this.parentComponent) this.parentComponent.constructor.name;
     return typeNme;
   }
 
-  addChild(childComponent: BaseComponent): BaseComponent {
+  public addChild(childComponent: BaseComponent): BaseComponent {
     childComponent.setParentComponent(this);
     return childComponent;
   }
 
-  setParentComponent(parentComponent: BaseComponent) {
+  protected setParentComponent(parentComponent: BaseComponent) {
     this.parentComponent = parentComponent;
     this.parentDomElement = this.parentComponent?.getDomElement();
     this.parentDomElement.append(this.domElement);
   }
-  
-  getParentComponent(): BaseComponent | any | undefined {
+
+  public getParentComponent(): BaseComponent | any | undefined {
     return this.parentComponent;
   }
 
-  show() {
+  public show() {
     this.domElement.style.display = this.displayMode;
     this.visible = true;
   }
 
-  hide() {
+  public hide() {
     this.domElement.style.display = "none";
     this.visible = false;
   }
 
-  getVisible(): boolean {
+  public isVisible(): boolean {
     return this.visible;
   }
-  setDisplayMode(newDisplayMode : string) {
+
+  public setDisplayMode(newDisplayMode: string) {
     this.displayMode = newDisplayMode;
   }
 }

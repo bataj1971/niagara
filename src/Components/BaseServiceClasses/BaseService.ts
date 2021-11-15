@@ -1,15 +1,14 @@
 import { BaseModel } from "../BaseModelClasses/BaseModel";
 
-export class BaseService {
-  
+export abstract class BaseService {
   protected state: Array<BaseModel> = [];
 
-  handleError(error: any) {
+  public handleError(error: any) {
     // alert("error");
     console.error(error);
   }
 
-  index(filter: any = {}, limit: number = 0) {
+  public index(filter: any = {}, limit: number = 0) {
     let resultSet: Array<Map<string, any>> = [];
 
     for (let c = 0; c < this.state.length; c++) {

@@ -8,7 +8,7 @@ export class DropDownInput extends BaseInput {
     this.render();
   }
 
-  render() {
+  private render() {
     if (this.settings.has("options")) {
         const options: Map<string, string> = new Map(
         Object.entries(this.settings.get("options") as Object)

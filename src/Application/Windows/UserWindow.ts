@@ -17,7 +17,8 @@ export class UserWindow extends WindowModuleLister {
     this.renderContent();
     this.setWindowMode(0);
   }
-  dataGridSettings() {
+
+  protected dataGridSettings() {
     const dataGridSettings = {
       columns: [
         { dataField: "username", label: "Username" },
@@ -42,7 +43,7 @@ export class UserWindow extends WindowModuleLister {
     return dataGridSettings;
   }
 
-  addFormFields() {
+  protected addFormFields() {
     this.formFields.set(
       "firstName",
       this.form.addChild(new TextInput({ label: "First name", col: 8 }))
@@ -62,7 +63,7 @@ export class UserWindow extends WindowModuleLister {
       
   }
 
-  loadData() {
+  protected loadData() {
     // console.log('UserWindow laodData ');
     const userService = new UserService();
     userService.loadData().then((data) => {
@@ -74,5 +75,5 @@ export class UserWindow extends WindowModuleLister {
     });
   }
 
-  renderContent() {}
+  protected renderContent() {}
 }

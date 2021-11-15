@@ -1,7 +1,7 @@
 import { BaseButton } from "./BaseButton";
 import "./FormCancelButton.scss";
 
-class FormCancelButton extends BaseButton {
+export class FormCancelButton extends BaseButton {
     constructor( settings = {}) {
         super('form-cancel-button');
 
@@ -12,5 +12,3 @@ class FormCancelButton extends BaseButton {
     }
 
 }
-
-export { FormCancelButton };

@@ -8,13 +8,16 @@ export class CurrencyWindow extends WindowModuleLister {
     super(desktop, "Currencies");
 
     this.setWindowTitle("Currencies");
+
     this.loadData();
+
     this.setWindowMode(0);
   }
 
-  loadData() {
+  protected loadData() {
     console.log("CurrencyWindow laodData ");
     const currencyService = new CurrencyService();
+
     currencyService.loadData().then((data) => {
       console.log("currencyService.loadData promice resolve:", data);
       const dataSet = currencyService.index();
@@ -22,8 +25,10 @@ export class CurrencyWindow extends WindowModuleLister {
       this.dataGrid.setData(dataSet);
       this.dataGrid.render();
     });
+    
   }
-  addFormFields() {
+
+  protected addFormFields() {
     this.formFields.set(
       "code",
       this.form.addChild(new TextInput({ label: "Code", col: 2 }))
@@ -37,7 +42,8 @@ export class CurrencyWindow extends WindowModuleLister {
       this.form.addChild(new TextInput({ label: "Decimal digits" }))
     );
   }
-  dataGridSettings() {
+
+  protected dataGridSettings() {
     return {
       columns: [
         { dataField: "code", label: "Code", width: "80px" },

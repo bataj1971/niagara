@@ -6,7 +6,7 @@ export class UserService extends BaseService {
     super();
   }
 
-  loadData(): Promise<void> {
+  public loadData(): Promise<void> {
     const searchUrl =
       "https://fakerapi.it/api/v1/users?_quantity=105&_locale=hu_HU";
 
@@ -17,7 +17,7 @@ export class UserService extends BaseService {
     return request;
   }
 
-  handleResponseData(response: any) {
+  public handleResponseData(response: any) {
     const data = response.data ?? [];
     // console.log("UserService / handleResponseData ", data);
 

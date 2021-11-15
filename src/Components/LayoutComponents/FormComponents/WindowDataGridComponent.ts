@@ -34,7 +34,7 @@ export class WindowDataGrid extends BaseComponent {
     this.render();
   }
 
-  setOptions(options: Object) {
+  public setOptions(options: Object) {
     this.options = {
       minheight: 200,
       columns: [],
@@ -44,18 +44,18 @@ export class WindowDataGrid extends BaseComponent {
     this.columns = this.options["columns"] ?? [];
   }
 
-  setData(data: Array<Map<string, any>>) {
+  public setData(data: Array<Map<string, any>>) {
     this.dataSet = data;
     // console.log("DataGRID --------------- setData ", data);
   }
 
-  handleKeyDown(e: KeyboardEvent) {
+  private handleKeyDown(e: KeyboardEvent) {
     e.preventDefault();
     e.stopPropagation();
     console.log("Window #handleKeypress", e);
   }
 
-  render() {
+  public render() {
     this.domElement.innerHTML = "";
     // adding header:
     const gridHeaderElement = document.createElement("window-data-grid-header");
@@ -78,14 +78,14 @@ export class WindowDataGrid extends BaseComponent {
       this.domElement.append(gridRowElement);
 
       // console.log('dataGRID - row:',dataRow);
-      
+
       for (const column of this.columns) {
         // console.log("datagrid column:", column);
         const gridCellElement = document.createElement(
           "window-data-grid-row-cell"
         );
 
-        let cellValue = '';
+        let cellValue = "";
 
         if (column.evaluateFunction) {
           cellValue = column.evaluateFunction(dataRow);
@@ -107,19 +107,18 @@ export class WindowDataGrid extends BaseComponent {
     }
   }
 
-  formatValue(value: any, type: string): string {
-      let formattedValue = value;
-      switch (type) {
-        case "date":
-          const dateValue = new Date(value);
-          formattedValue = dateValue.toLocaleDateString();
-          break;
-        case "number":
-          const numberValue = +value;
-          formattedValue = numberValue.toLocaleString();
-          break;
-      }
-      return formattedValue;
+  protected formatValue(value: any, type: string): string {
+    let formattedValue = value;
+    switch (type) {
+      case "date":
+        const dateValue = new Date(value);
+        formattedValue = dateValue.toLocaleDateString();
+        break;
+      case "number":
+        const numberValue = +value;
+        formattedValue = numberValue.toLocaleString();
+        break;
     }
-
+    return formattedValue;
+  }
 }

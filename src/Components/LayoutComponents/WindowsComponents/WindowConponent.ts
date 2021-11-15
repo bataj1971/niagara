@@ -120,7 +120,7 @@ export class WindowConponent extends ResizableMovableComponent {
     this.windowElement.append(resizeElement);
     this.setResizeGrabElement(resizeElement);
 
-    this.setWindowFootermessage("window initializing...");
+    this.setWindowFootermessage(`Window: ${this.constructor.name}#${this.id}`);
     this.setPos();
 
     // ***********************************************************************************
@@ -139,8 +139,9 @@ export class WindowConponent extends ResizableMovableComponent {
     );
   }
 
-  setWindowTitle(title = "Untitled window") {
-    this.title = `${title} (${this.id})`;
+  protected setWindowTitle(title = "Untitled window") {
+    // this.title = `${title} (${this.id})`;
+    this.title = `${title}`;
     if (this.windowHeaderTitleElement) {
       this.windowHeaderTitleElement.innerHTML = this.title;
     }
@@ -157,14 +158,15 @@ export class WindowConponent extends ResizableMovableComponent {
 
     console.log("windowSetActive");
   }
-  windowClose(e: Event) {
+
+  private windowClose(e: Event) {
     if (e) e.stopPropagation();
     console.log("windowClose");
     // delete this.#trayBarItem ;
     this.desktopComponent.closeWindow(this.id);
   }
 
-  windowMinimize(e: Event) {
+  protected windowMinimize(e: Event) {
     if (e) e.stopPropagation();
     this.windowStatus = WINDOWMODE.MINIMIZED;
     console.log("windowMinimize");
@@ -174,12 +176,12 @@ export class WindowConponent extends ResizableMovableComponent {
     //this.#windowElement.classList.remove('maximized');
   }
 
-  setWindowFootermessage(message = "...") {
+  protected setWindowFootermessage(message = "...") {
     this.footermessage = message;
     this.windowFooterElement.innerHTML = message;
   }
 
-  windowMaximize(e: Event) {
+  protected windowMaximize(e: Event) {
     if (e) e.stopPropagation();
     console.log("windowMaximize");
     this.windowStatus = WINDOWMODE.MAXIMIZED;
@@ -187,7 +189,8 @@ export class WindowConponent extends ResizableMovableComponent {
     this.windowElement.classList.remove("minimized");
     this.windowElement.classList.add("maximized");
   }
-  windowRestore(e: Event) {
+
+  protected windowRestore(e: Event) {
     if (e) e.stopPropagation();
     this.windowStatus = WINDOWMODE.FLOATING;
     this.windowMinimized = false;
@@ -196,15 +199,15 @@ export class WindowConponent extends ResizableMovableComponent {
     this.windowElement.classList.remove("maximized");
   }
 
-  windowRewoke() {
+  protected windowRewoke() {
     this.windowElement.classList.remove("minimized");
   }
 
-  addTrayBarItem(trayBarItem : DesktopTrayBarItemComponent) {
+  public addTrayBarItem(trayBarItem: DesktopTrayBarItemComponent) {
     this.trayBarItem = trayBarItem;
   }
-  
-  setActiveStatus(active = false) {
+
+  public setActiveStatus(active = false) {
     // console.log('setActiveStatus', this.#id, active);
     if (active) {
       this.windowElement.classList.add("active");
@@ -223,19 +226,19 @@ export class WindowConponent extends ResizableMovableComponent {
     }
   }
 
-  getId() {
+  public getId() {
     return this.id;
   }
 
-  getTitle() {
+  public getTitle() {
     return this.title;
   }
 
-  isActive() {
+  public isActive() {
     return this.windowIsAcive;
   }
 
-  close() {
+  public close() {
     this.domElement.remove();
   }
 }

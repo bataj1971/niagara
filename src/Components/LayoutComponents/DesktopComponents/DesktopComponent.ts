@@ -42,7 +42,7 @@ export class DesktopComponent extends RootComponent {
     this.menubar = new DesktopMenuBarComponent(this);
     this.footer = new DesktopFooterComponent();
     this.traybar = new DesktopTrayBarComponent(this);
-    this.windowContainer = new DesktopWindowContainer();    
+    this.windowContainer = new DesktopWindowContainer();
     this.desktopmessages = new DesktopMessagesComponent();
 
     this.addChild(this.header);
@@ -55,9 +55,17 @@ export class DesktopComponent extends RootComponent {
     // preparing windows handling
     this.windowList = new Map();
     this.windowFactory = new WindowFactory();
+
+    window.addEventListener("resize", this.handleDesktoResize.bind(this));
+    this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
   }
 
-  closeWindow(windowId: number) {
+  private handleKeyDown(e : KeyboardEvent) {
+    e.preventDefault();
+    console.log("DEsktop - handleKeyDown ", e);
+  }
+
+  public closeWindow(windowId: number) {
     const window: WindowConponent = this.windowList.get(windowId)!;
     window.close();
     this.traybar.removeTrayBarItem(windowId);
@@ -77,7 +85,7 @@ export class DesktopComponent extends RootComponent {
     );
   }
 
-  setChildWindowActive(newActiveWindowId: number) {
+  public setChildWindowActive(newActiveWindowId: number) {
     // console.log(' desktop setChildWindowActive: ', newActiveWindowId);
     // newActiveWindowId = parseInt(newActiveWindowId);
     if (!this.windowList.has(newActiveWindowId)) {
@@ -97,7 +105,8 @@ export class DesktopComponent extends RootComponent {
 
     this.refreshAllWindowActiveStatus();
   }
-  setChildWindowInActive(oldActiveWindowId: number) {
+
+  public setChildWindowInActive(oldActiveWindowId: number) {
     if (!this.windowList.has(oldActiveWindowId)) {
       console.error(
         " desktop setChildWindowActive window id not exists: ",
@@ -122,7 +131,7 @@ export class DesktopComponent extends RootComponent {
     this.refreshAllWindowActiveStatus();
   }
 
-  refreshAllWindowActiveStatus() {
+  private refreshAllWindowActiveStatus() {
     // set isActive status to all windows, set zIndex
     this.windowOrder.forEach((windowId, index) => {
       const windowProcessed = this.windowList.get(windowId);
@@ -134,7 +143,7 @@ export class DesktopComponent extends RootComponent {
     });
   }
 
-  trigger(triggerMessageData: Object) {
+  public trigger(triggerMessageData: Object) {
     let triggerMessage = {
       cmd: "",
       id: "",
@@ -161,7 +170,7 @@ export class DesktopComponent extends RootComponent {
     }
   }
 
-  addWindow(type = "") {
+  public addWindow(type = "") {
     // const newWindow = new Window(this.#windowContainer, 'Window');
     // let windowId : number;
     const newWindow = this.windowFactory.createWindow(type, this);
@@ -176,7 +185,7 @@ export class DesktopComponent extends RootComponent {
     console.log("this.windowList", this.windowList);
   }
 
-  handleDesktoResize() {
+  private handleDesktoResize() {
     const breakpoints = APPCONFIG.settings.responsivity.breakpoints ?? {
       mobile: 576,
       tablet: 678,
@@ -196,7 +205,7 @@ export class DesktopComponent extends RootComponent {
     }
     console.log("handleDesktoResize size:", size, this.domElement.className);
     this.windowOrder.forEach((windowId, index) => {
-      const windowProcessed : WindowConponent= this.windowList.get(windowId) !;
+      const windowProcessed: WindowConponent = this.windowList.get(windowId)!;
 
       windowProcessed.setPos();
     });

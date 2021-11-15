@@ -6,29 +6,23 @@ import { RelatedIdNameInput } from "../../Components/LayoutComponents/FormCompon
 import { TextInput } from "../../Components/LayoutComponents/FormComponents/FormFields/TextInput";
 import { WindowModuleLister } from "../../Components/LayoutComponents/WindowsComponents/WindowModuleLister";
 
-
-
-export class ArticleWindow extends WindowModuleLister {  
+export class ArticleWindow extends WindowModuleLister {
   constructor(desktop: DesktopComponent) {
-      super(desktop, "Article");
-      this.setWindowMode(1);
+    super(desktop, "Article");
+    this.setWindowMode(1);
     this.renderContent();
   }
 
   renderContent() {
     // const windowContent = this.getWindowContent();
-
     // const form = new WindowForm(windowContent);
     // const i1 = new TextInput(form, { label: 'Name' });
+  }
 
-    
-
-    }
-    
-    addFormFields() {
+  addFormFields() {
     for (let i = 1; i < 3; i++) {
-        let newField = new TextInput({ label: "Text" + i });
-        this.formFields.set('a'+i,newField);
+      let newField = new TextInput({ label: "Text" + i });
+      this.formFields.set("a" + i, newField);
       this.form.addChild(newField);
 
       newField = new IntegerInput({ label: "Number" + i });
@@ -54,14 +48,10 @@ export class ArticleWindow extends WindowModuleLister {
         newField.setBlocks(12, 4);
       }
     }
-        
-    }
+  }
   dataGridSettings() {
-      return {
-          columns: [
-              {dataField:'',type:'',width:'',label:''}
-        ]
+    return {
+      columns: [{ dataField: "", type: "", width: "", label: "" }],
     };
   }
 }
-

@@ -10,7 +10,7 @@ import { CustomerWindow } from "../Windows/CustomerWindow";
 import { UserWindow } from "../Windows/UserWindow";
 
 // import { CurrencyWindow } from "./CurrencyWindow";
-class WindowFactory {
+export class WindowFactory {
 
     createWindow(type = '*',desktop :DesktopComponent) : WindowConponent {
         let window: WindowConponent;
@@ -40,4 +40,3 @@ class WindowFactory {
     
 }
  
-export { WindowFactory };

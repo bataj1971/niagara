@@ -5,7 +5,7 @@ import { UserModel } from "./UserModel";
 /**
  * 
  */
-export class AppModel extends BaseModel {
+export abstract class AppModel extends BaseModel {
     private userData : UserModel ;
     
     constructor() {

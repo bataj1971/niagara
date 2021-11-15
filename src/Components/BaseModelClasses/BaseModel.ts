@@ -9,11 +9,11 @@ export class BaseModel {
     this.fieldMap = this.fieldMapping();
   }
 
-  addField(dataField: DataField) {
+  public addField(dataField: DataField) {
     this.fieldList.push(dataField);
   }
 
-  setData(data: object) {
+  public setData(data: object) {
     const mappedData = new Map(Object.entries(data));
 
     this.fieldList.forEach((field: DataField) => {
@@ -25,18 +25,18 @@ export class BaseModel {
         field.setDefaultValue();
         // todo: set default value from field
       }
-        // if (sourceFieldName in data) {
-        //   const fieldValue: any = (data[sourceFieldName] as string) ?? "";
-        //   field.set(fieldValue);
-        // }
+      // if (sourceFieldName in data) {
+      //   const fieldValue: any = (data[sourceFieldName] as string) ?? "";
+      //   field.set(fieldValue);
+      // }
     });
   }
 
-  fieldMapping(): Map<string, string> {
+  public fieldMapping(): Map<string, string> {
     return new Map<string, string>();
   }
 
-  validate(): boolean {
+  public validate(): boolean {
     let validated = true;
     this.fieldList.forEach((field) => {
       validated = validated && field.validate();
@@ -44,7 +44,7 @@ export class BaseModel {
     return validated;
   }
 
-  getFieldValues(): Map<string, any> {
+  public getFieldValues(): Map<string, any> {
     // values.set( field.id,field.value);
     // const result = Object.fromEntries(map);
     const values = new Map();

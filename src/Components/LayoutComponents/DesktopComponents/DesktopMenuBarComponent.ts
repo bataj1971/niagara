@@ -29,7 +29,7 @@ export class DesktopMenuBarComponent extends BaseComponent {
       );
   }
 
-  addmenuItem(menuItem : DesktopMenuItemComponent, parentElement :HTMLElement, subMenuItems : Array<Object>) {
+  private addmenuItem(menuItem : DesktopMenuItemComponent, parentElement :HTMLElement, subMenuItems : Array<Object>) {
       parentElement.append(menuItem.getDomElement());
       let menuData = {
           id: '',
@@ -59,7 +59,7 @@ export class DesktopMenuBarComponent extends BaseComponent {
     }
   }
 
-    handleMenuItemClick(e: Event ) {
+  private handleMenuItemClick(e: Event ) {
         if (!e.target) return;
         
 
@@ -71,7 +71,7 @@ export class DesktopMenuBarComponent extends BaseComponent {
     }
   }
 
-  getMenuStructure() {
+  private getMenuStructure() {
     return [
       {
         id: "",

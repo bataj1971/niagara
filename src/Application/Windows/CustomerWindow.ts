@@ -3,7 +3,7 @@ import { WindowConponent } from "../../Components/LayoutComponents/WindowsCompon
 
 
 
-class CustomerWindow extends WindowConponent {
+export class CustomerWindow extends WindowConponent {
     constructor(desktop: DesktopComponent ) {
         super(desktop);
         this.setWindowTitle('Customer');       
@@ -11,5 +11,3 @@ class CustomerWindow extends WindowConponent {
     }
 
 }
-
-export {CustomerWindow}

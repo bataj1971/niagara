@@ -3,7 +3,7 @@ import { DataField } from "../../Components/BaseModelClasses/DataField";
 
 
 
-class UserModel extends BaseModel{
+export class UserModel extends BaseModel{
 
     constructor(data: object) {        
         super();
@@ -25,4 +25,3 @@ class UserModel extends BaseModel{
     
 }
 
-export { UserModel };

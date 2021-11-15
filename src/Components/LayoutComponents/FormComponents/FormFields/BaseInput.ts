@@ -1,6 +1,6 @@
 import { BaseComponent } from "../../../BaseComponents/BaseComponent";
 
-export class BaseInput extends BaseComponent {
+export abstract class BaseInput extends BaseComponent {
   private inputElement: HTMLElement;
   private labelElement?: HTMLElement;
   private label: string;
@@ -26,8 +26,6 @@ export class BaseInput extends BaseComponent {
       this.domElement.append(this.labelElement);
       this.setLabel(this.label);
     }
-    
-    
 
     this.inputElement = this.createInputElement();
     this.domElement.append(this.inputElement);
@@ -35,7 +33,7 @@ export class BaseInput extends BaseComponent {
     // this.render();
   }
 
-  processSettings(settings: object = {}) {
+  protected processSettings(settings: object = {}) {
     const newSettings = new Map(Object.entries(settings));
     // todo merge new entries into settings map
 
@@ -43,16 +41,15 @@ export class BaseInput extends BaseComponent {
     // Object.assign(labelSetting, settings);
 
     // label
-    if (this.settings.has('label')) this.setLabel(this.settings.get("label"));
-    
+    if (this.settings.has("label")) this.setLabel(this.settings.get("label"));
   }
 
-  setBlocks(colspan = 6, rowspan = 1) {
+  public setBlocks(colspan = 6, rowspan = 1) {
     this.domElement.style.gridColumn = "span " + colspan;
     this.domElement.style.gridRow = "span " + rowspan;
   }
 
-  createInputElement(): HTMLElement {
+  protected createInputElement(): HTMLElement {
     const inputElement = document.createElement(this.inputTag);
     console.log("BaseInput:", this.inputTag, this.inputType, inputElement);
 
@@ -62,7 +59,7 @@ export class BaseInput extends BaseComponent {
     return inputElement;
   }
 
-  createLabelElement(): HTMLElement {
+  protected createLabelElement(): HTMLElement {
     const labelElement = document.createElement("label");
     return labelElement;
   }
@@ -72,36 +69,39 @@ export class BaseInput extends BaseComponent {
   //   this.createInputElement();
   // }
 
-  getValue() {
+  public getValue() {
     return (this.inputElement as HTMLInputElement).value;
   }
 
-  setValue(value: any) {}
+  public setValue(value: any) {
+    console.error("setvalue shoudl be implemented");
+  }
 
-  getInputElement(): HTMLElement {
+  public getInputElement(): HTMLElement {
     return this.inputElement;
   }
 
-  setInputElement(element: HTMLElement) {
+  protected setInputElement(element: HTMLElement) {
     this.inputElement = element;
   }
 
-  getLabel(): string {
+  public getLabel(): string {
     return this.label;
   }
 
-  setLabel(label = "") {
-      this.label = label ? label + ":" : "";
-    
-    if (this.labelElement) {    
+  public setLabel(label = "") {
+    this.label = label ? label + ":" : "";
+
+    if (this.labelElement) {
       this.labelElement.innerHTML = this.label;
     }
   }
 
-  isRequired(): boolean {
+  public isRequired(): boolean {
     return this.required;
   }
-  setRequired(required = false) {
+
+  public setRequired(required = false) {
     this.required = required;
   }
 }

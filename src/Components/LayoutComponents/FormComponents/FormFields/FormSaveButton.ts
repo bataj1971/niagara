@@ -1,7 +1,7 @@
 import { BaseButton } from "./BaseButton";
 import "./FormSaveButton.scss";
 
-class FormSaveButton extends BaseButton {
+export class FormSaveButton extends BaseButton {
     constructor(settings = {}) {
         super('form-save-button');
 
@@ -13,4 +13,3 @@ class FormSaveButton extends BaseButton {
     
 }
 
-export { FormSaveButton };

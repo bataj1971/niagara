@@ -6,7 +6,7 @@ import { DesktopTrayBarItemComponent } from "./DesktopTrayBarItemComponent";
 
 export class DesktopTrayBarComponent extends BaseComponent {
   private desktop: DesktopComponent;
-  private windowList: Map<number, WindowConponent> ;
+  private windowList: Map<number, WindowConponent>;
   private trayItems;
 
   constructor(desktop: DesktopComponent) {
@@ -20,9 +20,9 @@ export class DesktopTrayBarComponent extends BaseComponent {
       this.handleTrayBarItemClick.bind(this)
     );
   }
-  addTrayBaritem(window: WindowConponent) {
-    console.log("DesktopTrayBarComponent::addTrayBaritem",window);
-    
+  public addTrayBaritem(window: WindowConponent) {
+    console.log("DesktopTrayBarComponent::addTrayBaritem", window);
+
     const windowId = window.getId();
     if (!this.trayItems.has(windowId)) {
       const newTrayBarItem = new DesktopTrayBarItemComponent(window);
@@ -33,14 +33,14 @@ export class DesktopTrayBarComponent extends BaseComponent {
     }
   }
 
-  removeTrayBarItem(windowId: number) {
+  public removeTrayBarItem(windowId: number) {
     console.log("removeTrayBarItem", windowId);
 
     this.trayItems.get(windowId).remove();
     this.trayItems.delete(windowId);
   }
 
-  handleTrayBarItemClick(e : MouseEvent) {
+  private handleTrayBarItemClick(e: MouseEvent) {
     const trayBarItem = (e.target as Element).closest("desktop-tray-bar-item");
     if (trayBarItem) {
       const id = trayBarItem.getAttribute("windowid");

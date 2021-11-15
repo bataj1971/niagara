@@ -20,11 +20,11 @@ export class DesktopTrayBarItemComponent extends BaseComponent {
     this.domElement.setAttribute("windowid", windowId + "");
   }
 
-  remove() {
+  public remove() {
     this.domElement.remove();
   }
 
-  setActiveStatus(active = false) {
+  public setActiveStatus(active = false) {
     console.log('DesktopTrayBarItem setActiveStatus', this.window.getId(), active);
     if (active) {
       this.domElement.classList.add("active");

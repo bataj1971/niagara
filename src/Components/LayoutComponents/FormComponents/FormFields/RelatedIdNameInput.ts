@@ -1,7 +1,7 @@
 import './RelatedIdNameInput.scss';
 import { BaseInput } from "./BaseInput";
 
-class RelatedIdNameInput extends BaseInput {
+export class RelatedIdNameInput extends BaseInput {
     
     private nameInputElement : HTMLElement;
 
@@ -21,4 +21,3 @@ class RelatedIdNameInput extends BaseInput {
 
 }
 
-export { RelatedIdNameInput };
