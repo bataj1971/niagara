@@ -1,6 +1,6 @@
 import "./DesktopHeaderComponent.scss";
-import { BaseComponent } from "../../BaseComponents/BaseComponent";
-import { APPCONFIG } from "../../../APPCONFIG";
+import { BaseComponent } from "../../../BaseComponents/BaseComponent";
+import { APPCONFIG } from "../../../../APPCONFIG";
 
 export class DesktopHeaderComponent extends BaseComponent {
   private desktopHambrgerIconElement: HTMLElement;

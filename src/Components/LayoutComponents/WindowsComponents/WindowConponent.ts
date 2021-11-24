@@ -1,6 +1,7 @@
 import { ResizableMovableComponent } from "../../BaseComponents/ResizableMovableComponent";
-import { DesktopComponent } from "../DesktopComponents/DesktopComponent";
-import { DesktopTrayBarItemComponent } from "../DesktopComponents/DesktopTrayBarItemComponent";
+import { DesktopComponent } from "../DesktopComponents/Desktop/DesktopComponent";
+import { DesktopTrayBarItemComponent } from "../DesktopComponents/DesktopTrayBar/DesktopTrayBarItemComponent";
+
 import "./WindowConponent.scss";
 import { WindowContent } from "./WindowContent";
 

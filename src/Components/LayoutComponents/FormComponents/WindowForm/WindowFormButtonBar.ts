@@ -1,4 +1,4 @@
-import { BaseComponent } from "../../BaseComponents/BaseComponent";
+import { BaseComponent } from "../../../BaseComponents/BaseComponent";
 import "./WindowFormButtonBar.scss";
 
 export class WindowFormButtonBar extends BaseComponent {

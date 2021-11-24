@@ -1,4 +1,4 @@
-import { BaseComponent } from "../../BaseComponents/BaseComponent";
+import { BaseComponent } from "../../../BaseComponents/BaseComponent";
 
 export class DesktopWindowContainer extends BaseComponent {
     constructor() {

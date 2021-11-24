@@ -1,4 +1,4 @@
-import { BaseComponent } from "../../BaseComponents/BaseComponent";
+import { BaseComponent } from "../../../BaseComponents/BaseComponent";
 import "./WindowDataGridComponent.scss";
 
 export type DataGridDefinitionType = {
@@ -8,7 +8,7 @@ export type DataGridDefinitionType = {
 };
 
 export type ColumnDefinitionType = {
-  label: string ;
+  label: string;
   dataField?: string;
   defaultValue?: any;
   align?: string;
@@ -21,6 +21,8 @@ export class WindowDataGrid extends BaseComponent {
   private dataSet: Array<Map<string, any>> = [];
   private currentRow: number = 0;
   private currentRowIndex: number = 0;
+  private firstRowInView = 0;
+
   private columns: Array<ColumnDefinitionType> = [];
   private options = {
     minheight: 200,
@@ -32,6 +34,7 @@ export class WindowDataGrid extends BaseComponent {
 
     this.setOptions(options);
     this.render();
+    this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
   }
 
   public setOptions(options: Object) {
@@ -50,9 +53,9 @@ export class WindowDataGrid extends BaseComponent {
   }
 
   private handleKeyDown(e: KeyboardEvent) {
+    console.log("Window datagrid #handleKeypress", e);
     e.preventDefault();
     e.stopPropagation();
-    console.log("Window #handleKeypress", e);
   }
 
   public render() {

@@ -1,4 +1,4 @@
-import { DesktopComponent } from "../../Components/LayoutComponents/DesktopComponents/DesktopComponent";
+import { DesktopComponent } from "../../Components/LayoutComponents/DesktopComponents/Desktop/DesktopComponent";
 import { DropDownInput } from "../../Components/LayoutComponents/FormComponents/FormFields/DropDownInput";
 import { TextInput } from "../../Components/LayoutComponents/FormComponents/FormFields/TextInput";
 import { WindowModuleLister } from "../../Components/LayoutComponents/WindowsComponents/WindowModuleLister";

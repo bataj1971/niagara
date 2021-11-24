@@ -1,16 +1,16 @@
 import "./DesktopComponent.scss";
 
-import { RootComponent } from "../../BaseComponents/RootComponent";
-import { DesktopHeaderComponent } from "./DesktopHeaderComponent";
+import { RootComponent } from "../../../BaseComponents/RootComponent";
+import { DesktopHeaderComponent } from "../DesktopHeader/DesktopHeaderComponent";
 
-import { DesktopMenuBarComponent } from "./DesktopMenuBarComponent";
-import { DesktopFooterComponent } from "./DesktopFooterComponent";
-import { DesktopTrayBarComponent } from "./DesktopTrayBarComponent";
-import { WindowFactory } from "../../../Application/SystemSettings/WindowFactory";
-import { WindowConponent } from "../WindowsComponents/WindowConponent";
+import { DesktopMenuBarComponent } from "../DesktopMenuBar/DesktopMenuBarComponent";
+import { DesktopFooterComponent } from "../DesktopFooter/DesktopFooterComponent";
+import { DesktopTrayBarComponent } from "../DesktopTrayBar/DesktopTrayBarComponent";
+import { WindowFactory } from "../../../../Application/SystemSettings/WindowFactory";
+import { WindowConponent } from "../../WindowsComponents/WindowConponent";
 import { DesktopWindowContainer } from "./DesktopWindowContainer";
-import { DesktopMessagesComponent } from "./DesktopMessagesComponent";
-import { APPCONFIG } from "../../../APPCONFIG";
+import { DesktopMessagesComponent } from "../DesktopMessages/DesktopMessagesComponent";
+import { APPCONFIG } from "../../../../APPCONFIG";
 
 
 export class DesktopComponent extends RootComponent {
@@ -61,7 +61,7 @@ export class DesktopComponent extends RootComponent {
   }
 
   private handleKeyDown(e : KeyboardEvent) {
-    e.preventDefault();
+    // e.preventDefault();
     console.log("DEsktop - handleKeyDown ", e);
   }
 

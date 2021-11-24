@@ -1,4 +1,4 @@
-import { DesktopComponent } from "../../Components/LayoutComponents/DesktopComponents/DesktopComponent";
+import { DesktopComponent } from "../../Components/LayoutComponents/DesktopComponents/Desktop/DesktopComponent";
 import { DateInput } from "../../Components/LayoutComponents/FormComponents/FormFields/DateInput";
 import { DateTimeInput } from "../../Components/LayoutComponents/FormComponents/FormFields/DateTimeInput";
 import { IntegerInput } from "../../Components/LayoutComponents/FormComponents/FormFields/IntegerInput";

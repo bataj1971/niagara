@@ -1,6 +1,6 @@
 import "./DesktopMenuBarComponent.scss";
-import { BaseComponent } from "../../BaseComponents/BaseComponent";
-import { DesktopComponent } from "./DesktopComponent";
+import { BaseComponent } from "../../../BaseComponents/BaseComponent";
+import { DesktopComponent } from "../Desktop/DesktopComponent";
 import { DesktopMenuItemComponent } from "./DesktopMenuItemComponent";
 
 

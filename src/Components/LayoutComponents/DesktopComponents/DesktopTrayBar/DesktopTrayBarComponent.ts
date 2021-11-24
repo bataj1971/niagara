@@ -1,6 +1,6 @@
-import { BaseComponent } from "../../BaseComponents/BaseComponent";
-import { WindowConponent } from "../WindowsComponents/WindowConponent";
-import { DesktopComponent } from "./DesktopComponent";
+import { BaseComponent } from "../../../BaseComponents/BaseComponent";
+import { WindowConponent } from "../../WindowsComponents/WindowConponent";
+import { DesktopComponent } from "./../Desktop/DesktopComponent";
 import "./DesktopTrayBarComponent.scss";
 import { DesktopTrayBarItemComponent } from "./DesktopTrayBarItemComponent";
 

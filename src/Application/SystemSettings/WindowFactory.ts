@@ -2,7 +2,7 @@
 // import { ArticleWindow } from "./ArticleWindow";
 // import { CustomerWindow } from "./CustomerWindow";
 
-import { DesktopComponent } from "../../Components/LayoutComponents/DesktopComponents/DesktopComponent";
+import { DesktopComponent } from "../../Components/LayoutComponents/DesktopComponents/Desktop/DesktopComponent";
 import { WindowConponent } from "../../Components/LayoutComponents/WindowsComponents/WindowConponent";
 import { ArticleWindow } from "../Windows/ArticleWindow";
 import { CurrencyWindow } from "../Windows/CurrencyWindow";

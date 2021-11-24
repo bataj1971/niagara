@@ -1,4 +1,4 @@
-import { DesktopComponent } from "../../Components/LayoutComponents/DesktopComponents/DesktopComponent";
+import { DesktopComponent } from "../../Components/LayoutComponents/DesktopComponents/Desktop/DesktopComponent";
 import { WindowConponent } from "../../Components/LayoutComponents/WindowsComponents/WindowConponent";
 
 

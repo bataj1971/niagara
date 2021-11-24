@@ -1,5 +1,5 @@
 import "./DesktopFooterComponent.scss";
-import { BaseComponent } from "../../BaseComponents/BaseComponent";
+import { BaseComponent } from "../../../BaseComponents/BaseComponent";
 
 export class DesktopFooterComponent extends BaseComponent {
   private footerMessageElement: HTMLElement;

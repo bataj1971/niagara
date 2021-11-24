@@ -1,9 +1,10 @@
 import './WindowFormComponent.scss';
 
 import { WindowFormButtonBar } from './WindowFormButtonBar';
-import { FormSaveButton } from './FormFields/FormSaveButton';
-import { FormCancelButton } from './FormFields/FormCancelButton';
-import { BaseComponent } from '../../BaseComponents/BaseComponent';
+
+import { FormSaveButton } from '../FormFields/FormSaveButton';
+import { FormCancelButton } from './../FormFields/FormCancelButton';
+import { BaseComponent } from '../../../BaseComponents/BaseComponent';
 
 
 export class WindowFormComponent extends BaseComponent {
@@ -17,6 +18,7 @@ export class WindowFormComponent extends BaseComponent {
     super("window-form");
     this.setDisplayMode('grid');
     this.buttonBar = new WindowFormButtonBar();
+    this.addChild(this.buttonBar)  
     // this.buttonBar = new WindowFormButtonBar(this.parent);
     this.formSaveButton = new FormSaveButton();
     this.buttonBar.addChild(this.formSaveButton);

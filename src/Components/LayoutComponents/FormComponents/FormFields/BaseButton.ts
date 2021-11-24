@@ -8,13 +8,14 @@ export abstract class BaseButton extends BaseInput {
     }
 
     render() {
-    
         
+         this.setLabel();
     }
 
     processSettings(settings: Object) {
-        super.processSettings(settings);
+        super.processSettings(settings);        
     }
+    
     setLabel() {
         this.getInputElement().innerHTML =
           this.settings.get("label") ?? "Noname button";    

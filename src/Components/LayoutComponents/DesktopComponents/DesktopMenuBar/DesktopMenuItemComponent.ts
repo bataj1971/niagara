@@ -1,4 +1,4 @@
-import { BaseComponent } from "../../BaseComponents/BaseComponent";
+import { BaseComponent } from "../../../BaseComponents/BaseComponent";
 
 export class DesktopMenuItemComponent extends BaseComponent {
   constructor(id: string = "default", label: string = "menu item") {

@@ -1,14 +1,16 @@
-@import "../../../scss/variables.scss";
+@import "../../../../scss/variables.scss";
 
 window-form-button-bar {
-    width:calc(100% - 10px);
+    width:100% ;
+    grid-row: 1000;
+    grid-column: span 12;
     background-color: rgba($color-secondary-dark, 0.5);
     
     border-radius: $windowBorderRadius;
     position: sticky;
-    height:35px;
+    
     padding: 5px;
-    bottom:0px;
+    bottom:5px;
     display: block;
 
     max-width: 600px;
@@ -31,6 +33,7 @@ window-form-button-bar {
             background-color: transparent;
             display: block;
             color:white;
+            cursor: pointer;
         }
     }
 

@@ -1,11 +1,11 @@
 
-import { DesktopComponent } from "../DesktopComponents/DesktopComponent";
+import { DesktopComponent } from "../DesktopComponents/Desktop/DesktopComponent";
 import {
   WindowDataGrid,
   ColumnDefinitionType,
   DataGridDefinitionType,
-} from "../FormComponents/WindowDataGridComponent";
-import { WindowFormComponent } from "../FormComponents/WindowFormComponent";
+} from "../FormComponents/WindowDataGrid/WindowDataGridComponent";
+import { WindowFormComponent } from "../FormComponents/WindowForm/WindowFormComponent";
 import { WindowConponent } from "./WindowConponent";
 
 enum VIEWMODE {

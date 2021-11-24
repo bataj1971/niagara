@@ -1,5 +1,5 @@
-import { BaseComponent } from "../../BaseComponents/BaseComponent";
-import { WindowConponent } from "../WindowsComponents/WindowConponent";
+import { BaseComponent } from "../../../BaseComponents/BaseComponent";
+import { WindowConponent } from "../../WindowsComponents/WindowConponent";
 
 export class DesktopTrayBarItemComponent extends BaseComponent {
   private window: WindowConponent;
