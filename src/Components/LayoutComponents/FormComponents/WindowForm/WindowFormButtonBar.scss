@@ -2,15 +2,15 @@
 
 window-form-button-bar {
     width:100% ;
-    grid-row: 1000;
-    grid-column: span 12;
+    grid-row: 1;
+    grid-column: span 16;
     background-color: rgba($color-secondary-dark, 0.5);
     
     border-radius: $windowBorderRadius;
     position: sticky;
     
     padding: 5px;
-    bottom:5px;
+    top:5px;
     display: block;
 
     max-width: 600px;
@@ -27,14 +27,7 @@ window-form-button-bar {
             background-color: #579;
         }
         
-        & > button {
-            width:100%;
-            border: none;
-            background-color: transparent;
-            display: block;
-            color:white;
-            cursor: pointer;
-        }
+
     }
 
 

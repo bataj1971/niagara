@@ -134,10 +134,10 @@ export class WindowConponent extends ResizableMovableComponent {
       "mousedown",
       this.windowSetActive.bind(this)
     );
-    this.windowElement.addEventListener(
-      "keydown",
-      this.handleKeyDown.bind(this)
-    );
+    // this.windowElement.addEventListener(
+    //   "keydown",
+    //   this.handleKeyDown.bind(this)
+    // );
   }
 
   protected setWindowTitle(title = "Untitled window") {
@@ -148,16 +148,16 @@ export class WindowConponent extends ResizableMovableComponent {
     }
   }
 
-  private handleKeyDown(e: KeyboardEvent) {
+  public handleKeyDown(e: KeyboardEvent) {
     // e.preventDefault();
     // e.stopPropagation();
-    console.log("Window #handleKeypress", e);
+    console.log("Window #handleKeypress"+this.id, e);
   }
 
   private windowSetActive() {
     this.desktopComponent.setChildWindowActive(this.id);
 
-    console.log("windowSetActive");
+    // console.log("windowSetActive");
   }
 
   private windowClose(e: Event) {

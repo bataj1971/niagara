@@ -1,0 +1,11 @@
+@import "../../../../scss/variables";
+simple-button {
+    display: inline-block;
+    background-color: $buttonPrimaryColor;
+    border-radius: $windowBorderRadius;
+    margin-right: 5px;
+    
+    &:hover {
+        /* background-color: #a55; */ 
+    }    
+}

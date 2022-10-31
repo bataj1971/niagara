@@ -45,14 +45,25 @@ export abstract class BaseComponent {
     return this.parentComponent;
   }
 
-  public show() {
-    this.domElement.style.display = this.displayMode;
-    this.visible = true;
+  public show(show: boolean = true, opacity: number = -1) {
+    if (show) {
+      this.domElement.style.display = this.displayMode;
+      this.visible = true;
+      if (opacity >= 0) {
+        this.domElement.style.opacity = 0 + "";
+        this.domElement.style.opacity = opacity + "";
+      }
+    } else {
+      this.hide();
+    }
   }
 
-  public hide() {
+  public hide(opacity: number = -1) {
     this.domElement.style.display = "none";
     this.visible = false;
+    if (opacity >= 0) {      
+      this.domElement.style.opacity = opacity + "";
+    }
   }
 
   public isVisible(): boolean {
@@ -62,4 +73,12 @@ export abstract class BaseComponent {
   public setDisplayMode(newDisplayMode: string) {
     this.displayMode = newDisplayMode;
   }
+
+  public handleKeyDown(e: KeyboardEvent) {
+    // e.preventDefault();
+    console.log("BaseComponent #handleKeyDown", this, e);
+  }
+
+  public onFocus() {}
+  public onBlur() {}
 }

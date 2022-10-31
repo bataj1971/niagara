@@ -77,9 +77,10 @@ export class DesktopMenuBarComponent extends BaseComponent {
         id: "",
         label: "Main",
         submenuitems: [
+          { id: "customer", label: "Customers" },
           { id: "article", label: "Articles" },
           { id: "currency", label: "Currencies" },
-          { id: "customer", label: "Customers" },
+          { id: "countries", label: "Countries" },
         ],
       },
       { id: "", label: "Transactions", submenuitems: [] },
@@ -90,8 +91,7 @@ export class DesktopMenuBarComponent extends BaseComponent {
           { id: "user", label: "Users" },
           { id: "userrights", label: "User-rights" },
           { id: "usergroups", label: "User-groups" },
-          { id: "userroles", label: "User-Roles" },
-          { id: "userrights", label: "User-rights" },
+          { id: "userroles", label: "User-Roles" },          
         ],
       },
       {

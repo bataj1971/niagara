@@ -1,29 +1,42 @@
-import './WindowFormComponent.scss';
+import "./WindowFormComponent.scss";
 
-import { WindowFormButtonBar } from './WindowFormButtonBar';
+import { WindowFormButtonBar } from "./WindowFormButtonBar";
 
-import { FormSaveButton } from '../FormFields/FormSaveButton';
-import { FormCancelButton } from './../FormFields/FormCancelButton';
-import { BaseComponent } from '../../../BaseComponents/BaseComponent';
-
+import { FormSaveButton } from "../FormFields/FormSaveButton";
+import { FormCancelButton } from "./../FormFields/FormCancelButton";
+import { BaseComponent } from "../../../BaseComponents/BaseComponent";
+import { BaseInput } from "../FormFields/BaseInput";
+import { EDITMODE } from "../../WindowsComponents/WindowModuleLister";
 
 export class WindowFormComponent extends BaseComponent {
   private buttonBar: WindowFormButtonBar;
   private formSaveButton: FormSaveButton;
   private formCancelButton: FormCancelButton;
-
+  protected formFields: Map<string, BaseInput> = new Map();
   private callBackFunction: any;
+  private data: any;
+  private editMode: EDITMODE = EDITMODE.NEW;
 
-  constructor() {
+  private saveCallbackFunction: Function;
+  private cancelCallbackFunction: Function;
+
+  private loadRecordCallbackFuncion: Function = function (data: any) {};
+
+  constructor(
+    saveCallbackFunction: Function,
+    cancelCallbackFunction: Function
+  ) {
     super("window-form");
-    this.setDisplayMode('grid');
+    this.saveCallbackFunction = saveCallbackFunction;
+    this.cancelCallbackFunction = cancelCallbackFunction;
+
+    this.setDisplayMode("grid");
     this.buttonBar = new WindowFormButtonBar();
-    this.addChild(this.buttonBar)  
-    // this.buttonBar = new WindowFormButtonBar(this.parent);
-    this.formSaveButton = new FormSaveButton();
+    this.addChild(this.buttonBar);
+    this.formSaveButton = new FormSaveButton({ fieldName: "save" });
     this.buttonBar.addChild(this.formSaveButton);
 
-    this.formCancelButton = new FormCancelButton();
+    this.formCancelButton = new FormCancelButton({ fieldName: "cancel" });
     this.buttonBar.addChild(this.formCancelButton);
 
     this.formSaveButton
@@ -34,28 +47,123 @@ export class WindowFormComponent extends BaseComponent {
       .addEventListener("click", this.handleCancelButtonClick.bind(this));
   }
 
+  protected fieldChanged(fieldName: string, oldValue: any, newValue: any) {
+    console.log("fieldChanged:", fieldName, oldValue, newValue);
+  }
+
+  public setloadRecordFuncion(fx: Function) {
+    this.loadRecordCallbackFuncion = fx;
+  }
+
   private handleCancelButtonClick(e: MouseEvent) {
     e.stopPropagation();
-    console.log("handleCanceluttonClick");
-    
+    this.cancelForm();
   }
 
   private handleSaveButtonClick(e: MouseEvent) {
     e.stopPropagation();
-    console.log("handleSaveButtonClick");
+    this.saveForm();
   }
 
-  onSubmit() {}
-  submit() {}
+  saveForm() {
+    if (this.validateForm()) {
+      const data = new Map<string, any>();
+      this.formFields.forEach((formField) => {
+        data.set(formField.getFieldName(), formField.getValue());
+      });
+      this.saveCallbackFunction(data);
+    }
+  }
 
-//   addEventListener(callBackFunction : f) {
-//     this.callBackFunction = callBackFunction;
-//   }
+  cancelForm() {
+    this.cancelCallbackFunction();
+  }
+
+  validateForm(): boolean {
+    let formIsValid = true;
+
+    this.formFields.forEach((formField) => {
+      const valid = formField.validate();
+      if (false == valid) {
+        console.log(
+          "formValidation, formField not valid:",
+          formField.getFieldName(),
+          formField.getErrorMessage()
+        );
+        formField.setErrorMessage();
+
+        formIsValid = false;
+      }
+    });
+    return formIsValid;
+  }
+  onSubmit() {}
+  submit() {
+    this.saveForm();
+  }
+
+  loadRecordData(recordData: any, editMode: EDITMODE) {
+    
+    this.setEditMode(editMode);
+    this.data = recordData;
+
+    if (this.loadRecordCallbackFuncion) {
+      this.loadRecordCallbackFuncion(this.data,editMode);
+    }
+    console.log("form:loadData  ", recordData);
+  }
 
   private dummyCallbackFunction() {
-    console.error("Callback function not set for WindowForm: ", this.getParentType());
+    console.error(
+      "Callback function not set for WindowForm: ",
+      this.getParentType()
+    );
   }
-  
+
+  public onFocus() {
+    console.log("Form onfocus", this);
+  }
+
+  public addField(inputField: BaseInput) {
+    this.formFields.set(inputField.getFieldName(), inputField);
+    this.addChild(inputField);
+  }
+
+  public setFocus() {
+    let success = false;
+    this.formFields.forEach((formField) => {
+      if (!success && formField.isEnabled()) {
+        formField.setFocus(true);
+        success = true;
+      }
+    });
+  }
+  public handleKeyDown(e: KeyboardEvent) {
+    const keyCode =
+      (e.ctrlKey ? "ctrl_" : "") +
+      (e.shiftKey ? "shift_" : "") +
+      (e.altKey ? "alt_" : "") +
+      e.code;
+
+    console.log(" WindowFormComponent", keyCode);
+    switch (keyCode) {
+      case "ctrl_Enter":
+        this.saveForm();
+        break;
+      case "Escape":
+        this.cancelForm();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  public setEditMode(editMode: EDITMODE) {
+    this.editMode = editMode;
+    this.formFields.forEach((formField) => {
+      const enabled = !formField.isCreateOnly() || editMode == EDITMODE.NEW;
+      formField.setEnabled(enabled);
+    });    
+  }
 }
-
-

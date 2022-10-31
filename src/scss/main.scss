@@ -22,3 +22,8 @@ test-parent-component {
     min-width: 300px;
     padding:20px;
 }
+
+input:focus, textarea:focus,select:focus {
+    outline: none;
+    background-color: #ffa;
+}

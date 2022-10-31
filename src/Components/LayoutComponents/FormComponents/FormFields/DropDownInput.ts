@@ -1,20 +1,22 @@
 import { BaseInput } from "./BaseInput";
 import "./DropDownInput.scss";
+import { DropDownOptions, InputSettings } from "./InputSettings";
 
 export class DropDownInput extends BaseInput {
-  constructor(settings: object) {
-    super("dropdown-input", "select", "", settings);
-    //     this.processSettings(settings);
-    this.render();
+  constructor(settings: InputSettings) {
+    settings.tagname = "dropdown-input";
+    settings.inputTag = "select";
+    settings.inputType = "";
+    super(settings);
   }
 
-  private render() {
-    if (this.settings.has("options")) {
-        const options: Map<string, string> = new Map(
-        Object.entries(this.settings.get("options") as Object)
-        );
-        
-      
+  protected render() {
+    this.createLabelElement();
+    if (this.settings.options) {
+      const options: Map<string, string> = new Map(
+        Object.entries(this.settings.options as DropDownOptions)
+      );
+
       options.forEach((value: string, key: string) => {
         const optionElement = document.createElement(
           "option"
@@ -25,9 +27,12 @@ export class DropDownInput extends BaseInput {
       });
     } else {
       console.error("no oprions defined for dropdown", this);
-    }
+    } 
+    this.createErrorMessageElement();
   }
-  processSettings(settings: object) {
-    super.processSettings(settings);    
-  }
+  
+
+  // processSettings(settings: InputSettings) {
+  //   super.processSettings(settings);
+  // }
 }

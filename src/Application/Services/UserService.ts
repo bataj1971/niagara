@@ -7,8 +7,7 @@ export class UserService extends BaseService {
   }
 
   public loadData(): Promise<void> {
-    const searchUrl =
-      "https://fakerapi.it/api/v1/users?_quantity=105&_locale=hu_HU";
+    const searchUrl ="http://localhost/niagaraServer/users";
 
     const request = fetch(searchUrl) // request-> Promise
       .then((response) => response.json())
@@ -18,7 +17,8 @@ export class UserService extends BaseService {
   }
 
   public handleResponseData(response: any) {
-    const data = response.data ?? [];
+    // const data = response.data ?? [];
+    const data = response ?? [];
     // console.log("UserService / handleResponseData ", data);
 
     data.forEach((element : object) => {

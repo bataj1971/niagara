@@ -1,0 +1,16 @@
+window-data-grid[gridname='currencies']
+{
+        & window-data-grid-detail-field[formfield='id'] {
+                width: 50px;
+                 & detail-field-value {
+                    font-weight: bold;
+                 }
+        }
+        & window-data-grid-detail-field[formfield='name'] {
+                width: calc(100% - 150px);
+        }
+        & window-data-grid-detail-field[formfield='minor_unit'] {
+                width: 100px;
+        }
+
+}

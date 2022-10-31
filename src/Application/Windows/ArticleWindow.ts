@@ -4,12 +4,12 @@ import { DateTimeInput } from "../../Components/LayoutComponents/FormComponents/
 import { IntegerInput } from "../../Components/LayoutComponents/FormComponents/FormFields/IntegerInput";
 import { RelatedIdNameInput } from "../../Components/LayoutComponents/FormComponents/FormFields/RelatedIdNameInput";
 import { TextInput } from "../../Components/LayoutComponents/FormComponents/FormFields/TextInput";
-import { WindowModuleLister } from "../../Components/LayoutComponents/WindowsComponents/WindowModuleLister";
+import { VIEWMODE, WindowModuleLister } from "../../Components/LayoutComponents/WindowsComponents/WindowModuleLister";
 
 export class ArticleWindow extends WindowModuleLister {
   constructor(desktop: DesktopComponent) {
     super(desktop, "Article");
-    this.setWindowMode(1);
+    this.setViewMode(VIEWMODE.EDIT);
     this.renderContent();
   }
 
@@ -21,23 +21,32 @@ export class ArticleWindow extends WindowModuleLister {
 
   addFormFields() {
     for (let i = 1; i < 3; i++) {
-      let newField = new TextInput({ label: "Text" + i });
+      let newField = new TextInput({
+        fieldName: "text" + i,
+        label: "Text" + i,
+      });
       this.formFields.set("a" + i, newField);
       this.form.addChild(newField);
 
-      newField = new IntegerInput({ label: "Number" + i });
+      newField = new IntegerInput({
+        fieldName: "number" + i,
+        label: "Number" + i,
+      });
       this.formFields.set("b" + i, newField);
       this.form.addChild(newField);
 
-      newField = new DateInput({ label: "Date" + i });
+      newField = new DateInput({ fieldName: "date" + i, label: "Date" + i });
       this.formFields.set("c" + i, newField);
       this.form.addChild(newField);
 
-      newField = new DateTimeInput({ label: "DateTime" + i });
+      newField = new DateTimeInput({
+        fieldName: "datetime" + i,
+        label: "DateTime" + i,
+      });
       this.formFields.set("d" + i, newField);
       this.form.addChild(newField);
 
-      newField = new RelatedIdNameInput({ label: "Related" + i });
+      newField = new RelatedIdNameInput({fieldName:'name'+i, label: "Related" + i });
       this.formFields.set("e" + i, newField);
       this.form.addChild(newField);
 

@@ -1,26 +1,36 @@
 // import { BaseInput } from "../BaseInput";
 import { BaseInput } from "./BaseInput";
+import "./BaseButton.scss";
+import { InputSettings } from "./InputSettings";
 
 export abstract class BaseButton extends BaseInput {
-    constructor(type :string) {        
-        super(type, 'button', '');
-        this.render();
-    }
+  constructor(settings: InputSettings) {
+    settings.inputTag = "button";
+    settings.label = settings.label ?? "Button";
+    super(settings);
+    // this.render();
 
-    render() {
-        
-         this.setLabel();
-    }
+    const onClick = settings.onClick ?? this.onClickFunction.bind(this);
+    this.domElement.addEventListener("click", onClick);
+  }
 
-    processSettings(settings: Object) {
-        super.processSettings(settings);        
-    }
-    
-    setLabel() {
-        this.getInputElement().innerHTML =
-          this.settings.get("label") ?? "Noname button";    
-        
-    }
+   render() {
+     this.setLabel();
+   }
+
+
+  protected createLabelElement() {
+    // this.labelElement = this.domElement;
+  }
+
+  setLabel() {
+    // get the button element, set label as content
+    this.getInputElement().innerHTML = this.getLabel();
+  }
+
+  onClickFunction() {
+    console.log("Button clicked:" + this.settings.label);
+  }
 }
 
 

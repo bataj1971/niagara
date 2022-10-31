@@ -14,13 +14,8 @@ import { APPCONFIG } from "../../../../APPCONFIG";
 
 
 export class DesktopComponent extends RootComponent {
-  // private desktopTitle;
-
+  
   private desktopElement;
-  // private desktopTitleElement ;
-  // private desktopwindowContainerElement : DesktopWindowContainer;
-  // private dekstopMenuBarElement : DesktopMenuBarComponent;
-  // private desktopTrayBarElement : DesktopTrayBarComponent;
   private windowList: Map<number, WindowConponent>;
   private windowOrder: Array<number> = [];
 
@@ -33,9 +28,13 @@ export class DesktopComponent extends RootComponent {
   private footer: DesktopFooterComponent;
   private desktopmessages: DesktopMessagesComponent;
   private activeWindowId: number = 0;
+  private appFocus = "menu";
+
+  private activeWindow?: WindowConponent;
 
   constructor() {
     super("desktop-component");
+    this.setTitle("");
     this.desktopElement = this.domElement;
     // building desktop from elements:
     this.header = new DesktopHeaderComponent();
@@ -57,12 +56,44 @@ export class DesktopComponent extends RootComponent {
     this.windowFactory = new WindowFactory();
 
     window.addEventListener("resize", this.handleDesktoResize.bind(this));
-    this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
+    // this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+    document.addEventListener(
+      "contextmenu",
+      function (evt) {
+        // evt.preventDefault(); 
+        // enable this for debug
+      },
+      false
+    );
   }
 
-  private handleKeyDown(e : KeyboardEvent) {
+  public handleKeyDown(e: KeyboardEvent) {
     // e.preventDefault();
-    console.log("DEsktop - handleKeyDown ", e);
+    // console.log("DEsktop - handleKeyDown ",this.appFocus, e);
+    if (e.key == "ContextMenu") {
+      e.preventDefault();
+      this.setMenuActive();
+    }
+
+    switch (this.appFocus) {
+      case 'menu':
+            this.menubar.handleKeyDown(e);        
+        break;
+      case 'window':
+          if ( this.activeWindow) {
+            this.activeWindow.handleKeyDown(e);
+          }
+        break;
+      default:
+        break;
+    }
+
+  }
+
+  protected setMenuActive() {
+    this.appFocus = 'menu';
+    console.log("setMenuActive - contextmenu");
   }
 
   public closeWindow(windowId: number) {
@@ -86,8 +117,15 @@ export class DesktopComponent extends RootComponent {
   }
 
   public setChildWindowActive(newActiveWindowId: number) {
-    // console.log(' desktop setChildWindowActive: ', newActiveWindowId);
-    // newActiveWindowId = parseInt(newActiveWindowId);
+
+    
+    const oldActiveWindow = this.activeWindow;
+    this.appFocus = "window";
+
+    // to prevent unnecessary onFucus triggering
+    if (newActiveWindowId == this.activeWindow?.getId()) return;
+
+
     if (!this.windowList.has(newActiveWindowId)) {
       console.error(
         " desktop setChildWindowActive window id does not exists: ",
@@ -95,7 +133,8 @@ export class DesktopComponent extends RootComponent {
       );
       return;
     }
-    const activeWindow = this.windowList.get(newActiveWindowId);
+    
+    this.activeWindow = this.windowList.get(newActiveWindowId);
     this.activeWindowId = newActiveWindowId;
 
     // putting active window on the end of windowOrder array, others shift back:
@@ -104,6 +143,12 @@ export class DesktopComponent extends RootComponent {
     this.windowOrder.push(newActiveWindowId);
 
     this.refreshAllWindowActiveStatus();
+    this.setTitle(this.activeWindow?.getTitle() ?? '');
+    
+    if (oldActiveWindow) { oldActiveWindow.onBlur(); }
+    this.activeWindow?.onFocus();
+      
+    
   }
 
   public setChildWindowInActive(oldActiveWindowId: number) {
@@ -115,7 +160,7 @@ export class DesktopComponent extends RootComponent {
       return;
     }
 
-    const activeWindow = this.windowList.get(oldActiveWindowId);
+    this.activeWindow = this.windowList.get(oldActiveWindowId);
     this.activeWindowId = oldActiveWindowId;
 
     // putting active window on the beginning  of windowOrder array, others shift forward:
@@ -209,5 +254,9 @@ export class DesktopComponent extends RootComponent {
 
       windowProcessed.setPos();
     });
+  }
+
+  public setTitle(title: string = "") {
+    document.title = APPCONFIG.application.name + " " + title;
   }
 }

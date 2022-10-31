@@ -8,7 +8,8 @@ export class CurrencyService extends BaseService {
 
   public loadData(): Promise<void> {
     const searchUrl =
-      "https://gist.githubusercontent.com/Fluidbyte/2973986/raw/5fda5e87189b066e11c1bf80bbfbecb556cf2cc1/Common-Currency.json";
+      //"https://gist.githubusercontent.com/etienne-martin/887b5da33565e5fddf9acd0712884085/raw/4142b910b1fe9c282ff1cb7ba20b37fb8a3e5750/Common-Currency.json";
+      "http://localhost/niagaraServer/currencies";;
 
     const request = fetch(searchUrl) // request-> Promise
       .then((response) => response.json())
@@ -19,13 +20,13 @@ export class CurrencyService extends BaseService {
 
   protected handleResponseData(response: any) {
     const data: object = response ?? {};
-    console.log("CurrencyService / handleResponseData ", data);
+    // console.log("CurrencyService / handleResponseData ", data);
 
     Object.values(data).forEach((element: object) => {
       this.state.push(new CurrencyModel(element));
     });
 
-    console.log("CurrencyService / dataset ", this.state);
+   //  console.log("CurrencyService / dataset ", this.state);
   }
 
   protected getData() {

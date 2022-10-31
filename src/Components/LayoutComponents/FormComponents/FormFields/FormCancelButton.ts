@@ -1,14 +1,11 @@
 import { BaseButton } from "./BaseButton";
 import "./FormCancelButton.scss";
+import { InputSettings } from "./InputSettings";
 
 export class FormCancelButton extends BaseButton {
-    constructor( settings = {}) {
-        super('form-cancel-button');
-
-        Object.assign(settings, { label : "Cancel" });
-        
-        this.processSettings(settings);
-
-    }
-
+  constructor(settings: InputSettings) {
+    settings.tagname = "form-cancel-button";
+    settings.label = "Cancel";
+    super(settings);    
+  }
 }

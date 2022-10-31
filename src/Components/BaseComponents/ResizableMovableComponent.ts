@@ -85,8 +85,7 @@ export class ResizableMovableComponent extends BaseComponent {
     this.setDragStatus(DRAGSTATUS.OFF);
   }
 
-  private windowMouseDown(newDragStatus: DRAGSTATUS, e: MouseEvent) {
-    // e.stopPropagation();
+  private windowMouseDown(newDragStatus: DRAGSTATUS, e: MouseEvent) {    
     const pos = this.getPos();
     Object.assign(this.mouseClick, {
       mousex: e.clientX,
@@ -117,8 +116,7 @@ export class ResizableMovableComponent extends BaseComponent {
     const x =
       this.mouseClick.x + (this.currentMousePos.x - this.mouseClick.mousex);
     const y =
-      this.mouseClick.y + (this.currentMousePos.y - this.mouseClick.mousey);
-    // console.log('window move', this.mouseClick.height, this.#currentMousePos.y, this.mouseClick.mousey);
+      this.mouseClick.y + (this.currentMousePos.y - this.mouseClick.mousey);    
     this.setPos({ x, y });
   }
 
@@ -153,11 +151,6 @@ export class ResizableMovableComponent extends BaseComponent {
       thisDomElement.classList.add("screen");
       thisDomElement.classList.add("bigsrceen");
     }
-    console.log(
-      "Resizable element Resize size:",
-      size,
-      thisDomElement.className
-    );
 
     this.setPos({ width, height });
   }
@@ -167,11 +160,9 @@ export class ResizableMovableComponent extends BaseComponent {
 
     if (this.dragStatus !== DRAGSTATUS.OFF) {
       // turn mouse move on
-      // console.log('setDragStatus: windowMouseMove added');
       window.addEventListener("mousemove", this.thisWindowMouseMove);
     } else {
-      // turn mosue moove off
-      // console.log('setDragStatus: windowMouseMove removed');
+      // turn mosue moove off      
       window.removeEventListener("mousemove", this.thisWindowMouseMove);
     }
   }

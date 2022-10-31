@@ -1,14 +1,12 @@
 import { BaseButton } from "./BaseButton";
 import "./FormSaveButton.scss";
+import { InputSettings } from "./InputSettings";
 
 export class FormSaveButton extends BaseButton {
-    constructor(settings = {}) {
-        super('form-save-button');
-
-        Object.assign(settings, { label: 'Save' });
-        
-        this.processSettings(settings);
-
+    constructor(settings: InputSettings) {
+        settings.tagname = "form-save-button";
+        settings.label = 'Save';
+        super(settings);
     }
     
 }

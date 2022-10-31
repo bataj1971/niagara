@@ -3,29 +3,35 @@
 window-form {
   padding: 5px;
   margin: 0;
-  border: solid 0px #ddd;
+  border: solid 1px #ddd;
   border-radius: $windowBorderRadius;
   max-width:600px;
   margin: 10px auto 10px auto;
+  
 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(25px, 1fr));
+  
   grid-column-gap: 10px;
   grid-row-gap: 10px;
   /* grid-template-columns: 150px 150px 150px 150px; */
   width: 100%;
 
-  & > * {
-    /* border:solid 1px #ddf; */
+  & > * {    
     border-radius: $windowBorderRadius;
 
     display: block;
 
     /* display: inline-block; */
     grid-column: span 6;
+    ._tablet {
+      grid-column: span 6 !important;
+    }
     .mobile & {
       grid-column: span 6 !important;
     }
+
+    
   }
   & > * > input {   
     border-radius: $windowBorderRadius;
@@ -39,6 +45,12 @@ window-form {
         font-size: 0.8em;
         color:$color-primary-dark;
     }
+ &>*> error-message {
+  color:#a21;
+  padding:3px;
+  }
+
 
 }
+
 

@@ -1,46 +1,114 @@
 @import "../../../../scss/variables";
 
 window-data-grid {
-    
+  display: block;
+  width: 100%;
+  border: solid 1px #ddd;
+  min-height: 200px;
+  /* height: calc(100% - 300px); */
+  overflow: hidden;
+  /* overflow-y: scroll; */
+
+  /* background-color: #ddd; */
+  font-size: 0.8em;
+  border-collapse: collapse;
+  & > window-data-grid-head {
     display: block;
-    width:100%;
-    border:solid 1px #ddd;
-    min-height: 200px;
-    height: calc(100% - 300px);
+    padding: 5px 0px;
+    & button {
+      margin-right: 5px;
+    }
+    & text-input {
+      display: block;
+      transition: opacity 1s linear;
+      overflow: hidden;
+      float: right;
+
+      & > input {
+        border-radius: $windowBorderRadius;
+        padding: 5px;
+        display: inline-block;
+        border: solid 1px #ddd;
+        width: 100%;
+      }
+
+      & > label {
+        display: none;
+        font-size: 0.8em;
+        color: $color-primary-dark;
+      }
+    }
+  }
+  & window-data-grid-list {
+    display: table;
+
+    width: calc(100% - 20px);
+    float: left;
+    & window-data-grid-header {
+     display: table-row;
+      background-color: #ddd;
+      color: #357;
+      position: sticky;
+      top: 0px;
+      width: 100%;
+      & window-data-grid-header-cell {
+        padding: 5px;
+        display: table-cell;
+        border: solid 1px #bbb;
+        font-weight: bold;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+    & window-data-grid-row {
+      width: 100%;
+      &.activeRow/* , &:hover*/ {
+        background-color: #ffa;
+      }
+      display: table-row;
+      & window-data-grid-row-cell {
+        padding: 5px;
+        display: table-cell;
+        border: solid 1px #bbb;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+  }
+  & window-data-grid-scrollbar {
+    display: block;
+    float: right;
+    background-color: red;
+    height: 100%;
+    width: 20px;
     overflow: hidden;
     overflow-y: scroll;
-    
-    /* background-color: #ddd; */ 
-    font-size: 0.8em;
-    border-collapse: collapse;
+  }
 
-    & window-data-grid-header {
-        display : table-row;
-        background-color: #ddd;
-        color:#357;
-        position: sticky;
-        top:0px;
-        width:100%;
-        & window-data-grid-header-cell {
-            padding: 5px;;
-            display: table-cell;
-            border:solid 1px #bbb;
-            font-weight: bold;
-        }
+  & > window-data-grid-detail {
+    display: block;
+
+    & window-data-grid-detail-field {
+      display: inline-block;
+      width: 50%;
+      overflow: hidden;
+      padding: 5px;
+      & label {
+        display: block;
+        overflow: hidden;
+      }
+      & detail-field-value {
+        display: block;
+        background-color: white;
+        color: #357;
+        padding: 5px;
+        border-radius: $windowBorderRadius;
+        border: solid 1px #ddd;
+        overflow: hidden;
+        width: 100%;
+      }
     }
-
-
-    & window-data-grid-row {
-        width:100%;
-        &.active, 
-        &:hover {
-            background-color: #ffa;
-        }    
-        display : table-row;
-        & window-data-grid-row-cell {
-            padding: 5px;;
-            display: table-cell;
-            border:solid 1px #bbb;
-        }
-    }
+  }
 }

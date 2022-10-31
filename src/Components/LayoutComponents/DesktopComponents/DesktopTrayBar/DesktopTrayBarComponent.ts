@@ -21,7 +21,7 @@ export class DesktopTrayBarComponent extends BaseComponent {
     );
   }
   public addTrayBaritem(window: WindowConponent) {
-    console.log("DesktopTrayBarComponent::addTrayBaritem", window);
+    // console.log("DesktopTrayBarComponent::addTrayBaritem", window);
 
     const windowId = window.getId();
     if (!this.trayItems.has(windowId)) {
@@ -34,7 +34,7 @@ export class DesktopTrayBarComponent extends BaseComponent {
   }
 
   public removeTrayBarItem(windowId: number) {
-    console.log("removeTrayBarItem", windowId);
+    // console.log("removeTrayBarItem", windowId);
 
     this.trayItems.get(windowId).remove();
     this.trayItems.delete(windowId);
@@ -44,7 +44,7 @@ export class DesktopTrayBarComponent extends BaseComponent {
     const trayBarItem = (e.target as Element).closest("desktop-tray-bar-item");
     if (trayBarItem) {
       const id = trayBarItem.getAttribute("windowid");
-      console.log("handleTrayBarItemClick", id);
+      // console.log("handleTrayBarItemClick", id);
       this.desktop.trigger({ cmd: "setwindowactive", id: id });
     }
   }
