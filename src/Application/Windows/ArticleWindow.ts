@@ -5,8 +5,10 @@ import { IntegerInput } from "../../Components/LayoutComponents/FormComponents/F
 import { RelatedIdNameInput } from "../../Components/LayoutComponents/FormComponents/FormFields/RelatedIdNameInput";
 import { TextInput } from "../../Components/LayoutComponents/FormComponents/FormFields/TextInput";
 import { VIEWMODE, WindowModuleLister } from "../../Components/LayoutComponents/WindowsComponents/WindowModuleLister";
+import { ArticleModel } from "../Models/ArticleModel";
+import { ArticleService } from "../Services/ArticleService";
 
-export class ArticleWindow extends WindowModuleLister {
+export class ArticleWindow extends WindowModuleLister<ArticleModel, ArticleService> {
   constructor(desktop: DesktopComponent) {
     super(desktop, "Article");
     this.setViewMode(VIEWMODE.EDIT);
@@ -20,47 +22,43 @@ export class ArticleWindow extends WindowModuleLister {
   }
 
   addFormFields() {
-    for (let i = 1; i < 3; i++) {
-      let newField = new TextInput({
-        fieldName: "text" + i,
-        label: "Text" + i,
-      });
-      this.formFields.set("a" + i, newField);
-      this.form.addChild(newField);
+    this.form.addField(
+      new TextInput({
+        fieldName: "ean",
+        label: "Code",
+        col: 6,
+        createOnly: true,
+        required: true,
+      })
+    );
+    this.form.addField(
+      new TextInput({
+        fieldName: "unit",
+        label: "Unit",
+        col: 6,
+        createOnly: true,
+        required: true,
+      })
+    );
 
-      newField = new IntegerInput({
-        fieldName: "number" + i,
-        label: "Number" + i,
-      });
-      this.formFields.set("b" + i, newField);
-      this.form.addChild(newField);
+    this.form.addField(
+      new TextInput({
+        fieldName: "name",
+        label: "Currency name",
+        col: 12,
+        required: true,
+      })
+    );
 
-      newField = new DateInput({ fieldName: "date" + i, label: "Date" + i });
-      this.formFields.set("c" + i, newField);
-      this.form.addChild(newField);
-
-      newField = new DateTimeInput({
-        fieldName: "datetime" + i,
-        label: "DateTime" + i,
-      });
-      this.formFields.set("d" + i, newField);
-      this.form.addChild(newField);
-
-      newField = new RelatedIdNameInput({fieldName:'name'+i, label: "Related" + i });
-      this.formFields.set("e" + i, newField);
-      this.form.addChild(newField);
-
-      if (i % 3 == 0) {
-        newField.setBlocks(8, 1);
-      }
-      if (i % 4 == 0) {
-        newField.setBlocks(12, 4);
-      }
-    }
   }
   dataGridSettings() {
     return {
-      columns: [{ dataField: "", type: "", width: "", label: "" }],
+      columns: [        
+        { dataField: "ean", label: "Code", width: "80px" },
+        { dataField: "name", label: "Name", width: "100%" },
+        { dataField: "price", label: "Price" },
+        { dataField: "unit", label: "Unit" },
+      ],
     };
   }
 }

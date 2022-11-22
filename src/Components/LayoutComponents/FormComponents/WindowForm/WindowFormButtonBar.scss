@@ -3,8 +3,8 @@
 window-form-button-bar {
     width:100% ;
     grid-row: 1;
-    grid-column: span 16;
-    background-color: rgba($color-secondary-dark, 0.1);
+    grid-column: span 12;
+    background-color: $color-secondary;
     
     border-radius: $windowBorderRadius;
     position: sticky;
@@ -30,6 +30,8 @@ window-form-button-bar {
 
     }
 
-
-
+    
+    & + * {
+     grid-column-start: 0;
+    }
 }

@@ -10,18 +10,23 @@ import {
   VIEWMODE,
   WindowModuleLister,
 } from "../../Components/LayoutComponents/WindowsComponents/WindowModuleLister";
+import { UserModel } from "../Models/UserModel";
 import { UserService } from "../Services/UserService";
 import "./userWindows.scss";
-export class UserWindow extends WindowModuleLister {
+export class UserWindow extends WindowModuleLister<UserModel,UserService> {
   constructor(desktop: DesktopComponent) {
     super(desktop, "User", "user");
     this.setWindowTitle("Users");
     this.setPos({ height: 1000, width: 1000 });
+    this.loadListData();
 
-    this.loadData();
+    this.service = UserService.getInstance();
+    
 
-    //this.renderContent();
-    //this.setViewMode(VIEWMODE.LIST);
+    // test remov it:
+    const record = this.service.getRecord("1").then((response) => {
+      console.log("userService getRecord", response);
+    });    
   }
 
   protected dataGridSettings() {
@@ -32,8 +37,7 @@ export class UserWindow extends WindowModuleLister {
       columns: [
         { dataField: "loginname", label: "loginname" },
         { dataField: "name", label: "Name", width: "60%" },
-        // { dataField: "firstname", label: "Fist Name", width: "30%" },
-        // { dataField: "lastname", label: "Last Name", width: "30%" },
+
         { dataField: "email", label: "E-mail", width: "200px" },
 
         {
@@ -67,19 +71,26 @@ export class UserWindow extends WindowModuleLister {
   }
 
   protected addFormFields() {
-
-
     this.form.addField(
       new TextInput({
         fieldName: "loginname",
         label: "Login",
-        col: 6,
+        col: 7,
         createOnly: true,
       })
     );
     
     this.form.addField(
-      new TextInput({ fieldName: "name", label: "Name",required:true, col: 16 })
+      new DropDownInput({
+        fieldName: "status",
+        label: "User-status",
+        options: { a: "Active", b: "Temporary inactive", c: "Inactive" },
+        col: 5,
+        required: true,
+      })
+    );    
+    this.form.addField(
+      new TextInput({ fieldName: "name", label: "Name",required:true, col: 12 })
     );
 
     this.form.addField(
@@ -88,23 +99,15 @@ export class UserWindow extends WindowModuleLister {
         label: "E-mail",
         required: true,
         inputType: "email",
-        col: 10,
+        col: 12,
       })
     );
-    this.form.addField(
-      new DropDownInput({
-        fieldName: "status",
-        label: "User-status",
-        options: { a: "Active", b: "Temporary inactive", c: "Inactive" },
-        col: 4,
-        required:true
-      })
-    );
+
     this.form.addField(
       new DateTimeInput({
         fieldName: "created_at",
         label: "Created",        
-        col: 8,
+        col: 6,
         readonly:true,
       })
     );
@@ -112,7 +115,7 @@ export class UserWindow extends WindowModuleLister {
       new DateTimeInput({
         fieldName: "modified_at",
         label: "Modified",
-        col: 8,
+        col: 6,
         readonly: true,
       })
     );
@@ -120,16 +123,19 @@ export class UserWindow extends WindowModuleLister {
   }
 
   protected loadRecord(data: any) {
+
     console.log("UserWineos: loadRecord", data);
     // this.formFields.get(firstName).
   }
 
-  protected loadData() {
-    const userService = new UserService();
-    userService.loadData().then((data) => {
-      const userlist = userService.index();
-
-      this.dataGrid.setData(userlist);
+  protected loadListData(filter: string = "") {
+    const userService = UserService.getInstance();
+    userService.getIndex({ basic: filter }).then((dataSet) => {
+      // const userlist = userService.index();
+      const data = dataSet.map((item) => {
+        return new Map(Object.entries(item));
+      });
+      this.dataGrid.setData(data);
       this.dataGrid.render();
     });
   }

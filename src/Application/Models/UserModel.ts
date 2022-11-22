@@ -1,9 +1,22 @@
 import { BaseModel } from "../../Components/BaseModelClasses/BaseModel";
 import { DataField } from "../../Components/BaseModelClasses/DataField";
+import { Address } from "./AddressModel";
 
 
-
-export class UserModel extends BaseModel{
+export interface UserModel {
+  id: number;
+  name: string;
+  loginname: string;
+  birthdate:string;
+  email: string;
+  created_at: string;
+  modified_at: string;
+  usergroups: string[];
+  userrights: string[];
+  address_id?: number;
+  address?: Address;
+}
+export class User extends BaseModel{
 
     constructor(data: object) {        
         super();

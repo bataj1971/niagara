@@ -11,11 +11,6 @@ export interface DataGridOptions {
   renderGridDetail?: Function;
 }
 
-// export type DataGridDefinitionType = {
-//   width?: string;
-//   height?: string;
-//   columns: ColumnDefinitionType[];
-// };
 
 export type ColumnDefinitionType = {
   label: string;

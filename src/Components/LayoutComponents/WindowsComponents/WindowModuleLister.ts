@@ -1,4 +1,5 @@
 
+import { BaseService } from "../../BaseServiceClasses/BaseService";
 import { DesktopComponent } from "../DesktopComponents/Desktop/DesktopComponent";
 import { BaseInput } from "../FormComponents/FormFields/BaseInput";
 import { DataGridOptions, GridDataRow } from "../FormComponents/WindowDataGrid/DataGridOptions";
@@ -17,13 +18,16 @@ export enum EDITMODE {
   DEL
 }
 
-export class WindowModuleLister extends WindowConponent {
+export abstract class WindowModuleLister<Model, Service> extends WindowConponent {
   protected dataGrid: WindowDataGrid;
   protected form: WindowFormComponent;
   protected formFields: Map<string, any>;
   protected viewMode: VIEWMODE = VIEWMODE.LIST;
   protected editMode: EDITMODE = EDITMODE.NEW;
   protected contentTypeName: string;
+  protected service?: BaseService<Model>;
+  protected idFieldName = 'id';
+  protected currentid = '';
 
   constructor(
     desktop: DesktopComponent,
@@ -42,7 +46,8 @@ export class WindowModuleLister extends WindowConponent {
 
     this.dataGrid = new WindowDataGrid(
       dataGridSettings,
-      this.setViewMode.bind(this)
+      this.setViewMode.bind(this),
+      this.reloadListData.bind(this)
     );
     this.dataGrid
       .getDomElement()
@@ -50,7 +55,10 @@ export class WindowModuleLister extends WindowConponent {
     this.windowContent.addChild(this.dataGrid);
 
     this.formFields = new Map();
-    this.form = new WindowFormComponent(this.saveForm.bind(this), this.cancelForm.bind(this));
+    this.form = new WindowFormComponent(
+      this.saveForm.bind(this),
+      this.cancelForm.bind(this)
+    );
     this.form.getDomElement().setAttribute("formName", this.contentTypeName);
     this.form.setloadRecordFuncion(this.loadRecordDataToForm);
     this.windowContent.addChild(this.form);
@@ -87,8 +95,8 @@ export class WindowModuleLister extends WindowConponent {
         break;
       case VIEWMODE.EDIT: // edit record mode
         this.dataGrid.hide();
-        const curentRowData = this.dataGrid.getCurrentRecord();        
-        this.form.loadRecordData(curentRowData,editMode); // will call injected fx:
+        const curentRowData = this.dataGrid.getCurrentRecord();
+        this.form.loadRecordData(curentRowData, editMode); // will call injected fx:
         this.form.show();
         // alert("edit"+this.dataGrid.g);
         this.editMode = editMode;
@@ -179,36 +187,81 @@ export class WindowModuleLister extends WindowConponent {
     return this.formFields;
   }
 
-  protected loadRecordDataToForm(dataRow: GridDataRow,editMode:EDITMODE) {
+  protected loadRecordDataToForm(dataRow: GridDataRow, editMode: EDITMODE) {
     console.log("loadRecordDataToForm, data:", dataRow);
     console.log("formFields:", this.formFields);
-
+    if (!dataRow) {
+      return;
+    }
     this.formFields.forEach((formField: BaseInput, fieldName) => {
-      
       const dataFieldName = formField.getDataFieldName();
-      
+
       if (dataRow.has(dataFieldName)) {
-        if (editMode === EDITMODE.MOD) { 
+        if (editMode === EDITMODE.MOD) {
           formField.setValue(dataRow.get(dataFieldName));
+        } else {
+          // make form empty
+          // todo handle default values here..
+          formField.setValue(formField.getDefaultValue());
         }
-        else { 
-            // make form empty
-            // todo handle default values here..
-            formField.setValue(formField.getDefaultValue());
-        }
-        
       }
     });
   }
 
-  protected saveForm(data: GridDataRow) { 
-    alert('Form ready to save');
-    this.setViewMode(VIEWMODE.LIST, EDITMODE.NEW);    
-    console.log('WindwosModuleLister: save',data);
+  protected saveForm(data: GridDataRow) {
+    let message = "";
+    data.forEach((value, key) => {
+      message += "\n" + key + ":" + value;
+    });
+    alert("Record ready to save:" + message);
+
+    console.log("WindwosModuleLister: save", data);
+    if (this.service) {
+      if (this.editMode == EDITMODE.NEW) {
+        this.service.createRecord(data).then((response) => {
+          console.log("saveForm response", response);
+          alert("Save report:");
+        });
+      } else {
+        if (data.has(this.idFieldName)) {
+          const id = data.get(this.idFieldName);
+
+          this.service.modifyRecord(data, id).then((response) => {
+            console.log("saveForm response", response);
+            alert("Save report:");
+          });
+        } else { 
+          alert("no idfield:" + this.idFieldName);
+          console.log("saveForm modifyRecord",this.idFieldName,data);
+          
+        }
+      }
+    }
+
+    this.setViewMode(VIEWMODE.LIST, EDITMODE.NEW);
   }
-  protected cancelForm() { 
+  protected cancelForm() {
     console.log("WindwosModuleLister: cancel");
-    this.setViewMode(VIEWMODE.LIST, EDITMODE.NEW);    
+    this.setViewMode(VIEWMODE.LIST, EDITMODE.NEW);
   }
 
+  protected reloadListData(filter: string = "") {
+    this.loadListData(filter);
+  }
+
+  protected loadListData(filter: string = "") {
+    console.log("loadListData - NOT IMPLEMENTED");
+
+    if (this.service) {
+      this.service.getIndex({ basic: filter }).then((dataSet) => {
+        console.log("generic getIndex", dataSet);
+
+        const data = dataSet.map((item) => {
+          return new Map(Object.entries(item as Object));
+        });
+        this.dataGrid.setData(data);
+        this.dataGrid.render();
+      });
+    }
+  }
 }

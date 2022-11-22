@@ -6,41 +6,51 @@ import {
   VIEWMODE,
   WindowModuleLister,
 } from "../../Components/LayoutComponents/WindowsComponents/WindowModuleLister";
+import { CurrencyModel } from "../Models/CurrencyModel";
 import { CurrencyService } from "../Services/CurrencyService";
 import "./currencyWindow.scss";
-export class CurrencyWindow extends WindowModuleLister {
+export class CurrencyWindow extends WindowModuleLister<CurrencyModel,CurrencyService> {
   constructor(desktop: DesktopComponent) {
     super(desktop, "Currencies", "currencies");
 
+    this.service = CurrencyService.getInstance();
     this.setWindowTitle("Currencies");
     this.setPos({ height: 500, width: 600 });
-    this.loadData();
+    this.loadListData();
 
     this.setViewMode(VIEWMODE.LIST);
   }
 
-  protected loadData() {
-    const currencyService = new CurrencyService();
+  protected loadListData(filter: string = "") {
+    if (this.service) {
+      this.service.getIndex({ basic: filter }).then((dataSet) => {
+        console.log("CurrencyService getIndex", dataSet);
 
-    currencyService.loadData().then((data) => {
-      // console.log("currencyService.loadData promise resolve:", data);
-      const dataSet = currencyService.index();
-      // console.log("dataset in currencyWindow", dataSet);
-      this.dataGrid.setData(dataSet);
-      this.dataGrid.render();
-    });
+        const data = dataSet.map((item) => {
+          return new Map(Object.entries(item));
+        });
+        this.dataGrid.setData(data);
+        this.dataGrid.render();
+      });
+    }
   }
 
   protected addFormFields() {
     this.form.addField(
-      new TextInput({ fieldName: "id", label: "Code", col: 3 ,createOnly:true,required:true})
+      new TextInput({
+        fieldName: "id",
+        label: "Code",
+        col: 2,
+        createOnly: true,
+        required: true,
+      })
     );
 
     this.form.addField(
       new TextInput({
         fieldName: "name",
         label: "Currency name",
-        col: 10,
+        col: 6,
         required: true,
       })
     );
@@ -48,7 +58,7 @@ export class CurrencyWindow extends WindowModuleLister {
       new IntegerInput({
         fieldName: "minor_unit",
         label: "Decimal digits",
-        col: 3,
+        col: 4,
         defaultValue: 2,
         required: true,
       })
@@ -57,7 +67,7 @@ export class CurrencyWindow extends WindowModuleLister {
       new DateTimeInput({
         fieldName: "created_at",
         label: "Created",
-        col: 8,
+        col: 6,
         readonly: true,
       })
     );
@@ -65,10 +75,10 @@ export class CurrencyWindow extends WindowModuleLister {
       new DateTimeInput({
         fieldName: "modified_at",
         label: "Modified",
-        col: 8,
+        col: 6,
         readonly: true,
       })
-    );    
+    );
   }
 
   protected dataGridSettings() {

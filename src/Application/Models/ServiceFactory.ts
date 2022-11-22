@@ -14,13 +14,13 @@ export class ServiceFactory {
    * @param {*} separator
    * @returns
    */
-  static getService(serviceName = "", separator = "") {
-    if (ServiceFactory.#modelInstances.has(serviceName)) {
-      return ServiceFactory.#modelInstances.get(serviceName);
-    }
+  // static getService(serviceName = "", separator = "") {
+  //   if (ServiceFactory.#modelInstances.has(serviceName)) {
+  //     return ServiceFactory.#modelInstances.get(serviceName);
+  //   }
 
-    return this.createInstance(serviceName, separator);
-  }
+  //   return this.createInstance(serviceName, separator);
+  // }
 
   /**
    *
@@ -28,20 +28,20 @@ export class ServiceFactory {
    * @param {*} separator
    * @returns
    */
-  static createInstance(serviceName :string , separator :string ) : BaseService {
-    let modelInstance;
-    switch (serviceName) {
-      case "user":
-        modelInstance = new UserService();
-        break;
+  // static createInstance(serviceName :string , separator :string ) : BaseService<T> {
+  //   let modelInstance;
+  //   switch (serviceName) {
+  //     case "user":
+  //       modelInstance = new UserService();
+  //       break;
 
-      default:
-        throw Error("Model not found:" + serviceName + "/" + separator);
-        break;
-    }
+  //     default:
+  //       throw Error("Model not found:" + serviceName + "/" + separator);
+  //       break;
+  //   }
 
-    ServiceFactory.#modelInstances.set(serviceName, modelInstance);
-    return modelInstance;
+  //   ServiceFactory.#modelInstances.set(serviceName, modelInstance);
+  //   return modelInstance;
     
-  }
+  // }
 }

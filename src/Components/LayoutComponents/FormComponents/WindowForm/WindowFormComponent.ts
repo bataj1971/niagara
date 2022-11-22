@@ -83,6 +83,8 @@ export class WindowFormComponent extends BaseComponent {
     let formIsValid = true;
 
     this.formFields.forEach((formField) => {
+      console.log("validation",formField.getFieldName());
+      
       const valid = formField.validate();
       if (false == valid) {
         console.log(
@@ -122,6 +124,7 @@ export class WindowFormComponent extends BaseComponent {
 
   public onFocus() {
     console.log("Form onfocus", this);
+    this.setFocus();
   }
 
   public addField(inputField: BaseInput) {
@@ -134,7 +137,7 @@ export class WindowFormComponent extends BaseComponent {
     this.formFields.forEach((formField) => {
       if (!success && formField.isEnabled()) {
         formField.setFocus(true);
-        success = true;
+        success = true;       
       }
     });
   }
@@ -145,7 +148,7 @@ export class WindowFormComponent extends BaseComponent {
       (e.altKey ? "alt_" : "") +
       e.code;
 
-    console.log(" WindowFormComponent", keyCode);
+    // console.log(" WindowFormComponent", keyCode);
     switch (keyCode) {
       case "ctrl_Enter":
         this.saveForm();

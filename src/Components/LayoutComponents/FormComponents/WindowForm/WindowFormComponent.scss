@@ -3,14 +3,14 @@
 window-form {
   padding: 5px;
   margin: 0;
-  border: solid 1px #ddd;
+  /* border: solid 1px #ddd; */
   border-radius: $windowBorderRadius;
-  max-width:600px;
+  max-width:610px;
   margin: 10px auto 10px auto;
   
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(25px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
   
   grid-column-gap: 10px;
   grid-row-gap: 10px;
@@ -48,6 +48,7 @@ window-form {
  &>*> error-message {
   color:#a21;
   padding:3px;
+  display: block;
   }
 
 

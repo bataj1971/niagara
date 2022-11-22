@@ -11,8 +11,8 @@ export const APPCONFIG = {
         screen: 992,
       },
     },
-    // apiUrl: "http://localhost/niagaraServer/",
-    apiUrl: "https://niagaraapi.batajozsef.hu/",
   },
+  // apiUrl: "http://localhost/niagaraServer/",
+  apiUrl: "https://niagaraapi.batajozsef.hu/",
 };
 

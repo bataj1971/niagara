@@ -39,53 +39,73 @@ window-data-grid {
       }
     }
   }
-  & window-data-grid-list {
-    display: table;
-
-    width: calc(100% - 20px);
-    float: left;
-    & window-data-grid-header {
-     display: table-row;
-      background-color: #ddd;
-      color: #357;
-      position: sticky;
-      top: 0px;
-      width: 100%;
-      & window-data-grid-header-cell {
-        padding: 5px;
-        display: table-cell;
-        border: solid 1px #bbb;
-        font-weight: bold;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-      }
-    }
-    & window-data-grid-row {
-      width: 100%;
-      &.activeRow/* , &:hover*/ {
-        background-color: #ffa;
-      }
-      display: table-row;
-      & window-data-grid-row-cell {
-        padding: 5px;
-        display: table-cell;
-        border: solid 1px #bbb;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-      }
-    }
-  }
-  & window-data-grid-scrollbar {
-    display: block;
-    float: right;
-    background-color: red;
-    height: 100%;
-    width: 20px;
+  & window-data-grid-list-container {
+    
+    display:inline-block;
     overflow: hidden;
-    overflow-y: scroll;
+    position: relative;
+
+    & window-data-grid-list {
+      display: table;
+
+      width: calc(100% - 20px);
+      float: left;
+      & window-data-grid-header {
+        display: table-row;
+        background-color: #ddd;
+        color: #357;
+        position: sticky;
+        top: 0px;
+        width: 100%;
+        & window-data-grid-header-cell {
+          padding: 5px;
+          display: table-cell;
+          border: solid 1px #bbb;
+          font-weight: bold;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+      }
+      & window-data-grid-row {
+        width: 100%;
+        &.activeRow/* , &:hover*/ {
+          background-color: #ffa;
+        }
+        &.empty-grid-row {
+          background-color: #bbb;
+        }
+        display: table-row;
+        & window-data-grid-row-cell {
+          padding: 5px;
+          display: table-cell;
+          border: solid 1px #bbb;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+      }
+    }
+    & window-data-grid-scrollbar {
+      
+      position: absolute;
+      height: 100%;
+      width:20px;
+      display: inline-block;
+      
+      // background-color: red;
+      
+      
+      overflow: hidden;
+      overflow-y: scroll;
+      & scroll-content {
+          height: 300%;
+          width:100%;
+          display: block;
+      }
+    }
   }
+
 
   & > window-data-grid-detail {
     display: block;

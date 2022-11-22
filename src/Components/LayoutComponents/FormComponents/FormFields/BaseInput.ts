@@ -35,11 +35,13 @@ export abstract class BaseInput extends BaseComponent {
 
     this.settings = Object.assign({}, settings);
 
+    this.setBlocks();
     this.processSettings(settings);
+    this.createLabelElement();    
     this.inputElement = this.createInputElement();
 
     this.render();
-    this.domElement.append(this.inputElement); 
+    
     this.createErrorMessageElement();
   }
   public getFieldName() {
@@ -54,9 +56,11 @@ export abstract class BaseInput extends BaseComponent {
     Object.assign(this.settings, settings as InputSettings);
   }
 
-  public setBlocks(colspan = 6, rowspan = 1) {
-    this.domElement.style.gridColumn = "span " + colspan;
-    this.domElement.style.gridRow = "span " + rowspan;
+  public setBlocks() {
+    const col = this.settings.col ?? 6;
+    const row = this.settings.row ?? 1;
+    this.domElement.style.gridColumn = "span " + col;
+    this.domElement.style.gridRow = "span " + row;
   }
 
   protected createInputElement(): HTMLElement {
@@ -68,6 +72,7 @@ export abstract class BaseInput extends BaseComponent {
     if (this.settings.inputType) {
       (<HTMLInputElement>inputElement).type = this.settings.inputType;
     }
+    this.domElement.append(inputElement); 
     return inputElement;
   }
 
@@ -84,12 +89,12 @@ export abstract class BaseInput extends BaseComponent {
   }
 
   protected render() {
-    this.createLabelElement();    
+    // this.createLabelElement();    
     // this.createErrorMessageElement();
 
-    this.domElement.style.gridColumn = this.settings.col
-      ? "span " + this.settings.col
-      : "";
+    // this.domElement.style.gridColumn = this.settings.col
+    //   ? "span " + this.settings.col
+    //   : "";
     //  this.createInputElement();
   }
 
@@ -211,7 +216,8 @@ export abstract class BaseInput extends BaseComponent {
     this.setErrorMessage();
   }
 
-  isEmpty(): boolean {
+  isEmpty(): boolean {    
+    this.getValue();
     const empty = this.value ? false : true;
     return empty;
   }

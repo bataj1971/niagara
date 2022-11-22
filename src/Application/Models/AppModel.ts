@@ -1,16 +1,16 @@
 
 import { BaseModel } from "../../Components/BaseModelClasses/BaseModel";
-import { UserModel } from "./UserModel";
+import { User, UserModel } from "./UserModel";
 
 /**
  * 
  */
 export abstract class AppModel extends BaseModel {
-    private userData : UserModel ;
+    private userData : User ;
     
     constructor() {
         super();
-        this.userData = new UserModel({firstname:'Jozsef'});
+        this.userData = new User({firstname:'Jozsef'});
     }
     
 }

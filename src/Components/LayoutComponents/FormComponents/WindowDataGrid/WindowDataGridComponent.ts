@@ -1,29 +1,43 @@
 import { BaseComponent } from "../../../BaseComponents/BaseComponent";
-import { EDITMODE, VIEWMODE, WindowModuleLister } from "../../WindowsComponents/WindowModuleLister";
+
+import {
+  EDITMODE,
+  VIEWMODE,
+  WindowModuleLister,
+} from "../../WindowsComponents/WindowModuleLister";
+
 import { SimpleButton } from "../FormFields/SimpleButton";
 import { TextInput } from "../FormFields/TextInput";
-import { ColumnDefinitionType, DataGridOptions, GridDataRow } from "./DataGridOptions";
+import {
+  ColumnDefinitionType,
+  DataGridOptions,
+  GridDataRow,
+} from "./DataGridOptions";
+
 import { GridDetailComponent } from "./GridDetailComponent";
 import { GridHeadComponent } from "./GridHeadComponent";
 import { GridListComponent } from "./GridListComponent";
+import { GridListContainerComponent } from "./GridListContainerComponent";
 import "./WindowDataGridComponent.scss";
-
 
 export class WindowDataGrid extends BaseComponent {
   private dataSet: Array<GridDataRow> = [];
   // private dataSet: Array<Map<string, any>> = [];
   private currentRow: number = 0;
-  private currentRowIndex: number = 0;
+  private currentRowInView: number = 0;
   private rowCount = 0;
   private firstRowInView = 0; // first visible row
   private pageRowCount: number = 10;
-  private searchInputVisible = false;
 
-  public searchEnabled: boolean = true;
   public newEnabled: boolean = true;
   public modEnabled: boolean = true;
 
   private searchInput: TextInput;
+  public searchEnabled: boolean = true;
+  private searchInputVisible = false;
+  private searchInputTimer?: ReturnType<typeof setTimeout>;
+  private searhFilter: string = "";
+
   private newRecordButton: SimpleButton;
   private modRecordButton: SimpleButton;
   private delRecordButton: SimpleButton;
@@ -34,20 +48,27 @@ export class WindowDataGrid extends BaseComponent {
   private dataGridHead: GridHeadComponent;
   private dataGridDetail: GridDetailComponent;
 
+  private dataGridListContainer: GridListContainerComponent;
   private dataGridScrollbarElement: HTMLElement;
+  private dataGridScrollbarElementContent: HTMLElement;
 
   private columns: Array<ColumnDefinitionType> = [];
   protected callBack: Function;
-  // private windowModuleLister: WindowModuleLister;
+  protected reloadListData: Function;
 
   private dataGridOptions: DataGridOptions = {
     minheight: 200,
     columns: [],
   };
 
-  constructor(options: DataGridOptions, callBack: Function) {
+  constructor(
+    options: DataGridOptions,
+    callBack: Function,
+    reloadListData: Function
+  ) {
     super("window-data-grid");
     this.callBack = callBack;
+    this.reloadListData = reloadListData;
     // this.windowModuleLister = windowModuleLister;
     this.setOptions(options);
     this.dataGridHead = new GridHeadComponent();
@@ -94,17 +115,41 @@ export class WindowDataGrid extends BaseComponent {
     });
     this.searchInput.hide();
     this.dataGridHead.addChild(this.searchInput);
+    this.searchInput
+      .getDomElement()
+      .addEventListener("keyup", this.handleSearchInputChange.bind(this));
 
-    this.gridList = new GridListComponent();
-    this.gridList.getDomElement().onmousedown =  this.handleGridListComponentClick;
-    
-    this.addChild(this.gridList);
+    this.dataGridListContainer = new GridListContainerComponent();
+    this.addChild(this.dataGridListContainer);
 
     this.dataGridScrollbarElement = document.createElement(
       "window-data-grid-scrollbar"
     );
-    this.dataGridScrollbarElement.innerHTML = "&nbsp;a";
-    this.domElement.append(this.dataGridScrollbarElement);
+    this.dataGridScrollbarElement.addEventListener(
+      "scroll",
+      this.handleScrollbarChange.bind(this)
+    );
+    this.dataGridScrollbarElementContent =
+      document.createElement("scroll-content");
+    this.dataGridScrollbarElementContent.innerHTML = "&nbsp;";
+    this.dataGridScrollbarElement.append(this.dataGridScrollbarElementContent);
+
+    this.gridList = new GridListComponent();
+
+    this.gridList.getDomElement().onmousedown =
+      this.handleGridListComponentClick.bind(this);
+
+    this.gridList
+      .getDomElement()
+      .addEventListener("wheel", this.handleMouseWheel.bind(this));
+
+    // this.addChild(this.gridList);
+    this.dataGridListContainer.addChild(this.gridList);
+
+    this.dataGridListContainer
+      .getDomElement()
+      .append(this.dataGridScrollbarElement);
+
     this.dataGridDetail = new GridDetailComponent(this.dataGridOptions);
     this.addChild(this.dataGridDetail);
 
@@ -112,9 +157,18 @@ export class WindowDataGrid extends BaseComponent {
   }
 
   protected handleGridListComponentClick(e: MouseEvent) {
-    console.log("handleGridListComponentClick",e.target);
+    const clickedElement = e.target as HTMLElement;
+    if (clickedElement.parentElement) {
+      const rowInView = parseInt(
+        clickedElement.parentElement.getAttribute("rowinview") ?? ""
+      );
+      if (this.currentRowInView != rowInView) {
+        this.currentRowInView = rowInView;
+        this.setRow(true);
+      }
+    }
   }
-  
+
   public setOptions(options: DataGridOptions) {
     this.dataGridOptions = {
       minheight: 200,
@@ -132,15 +186,15 @@ export class WindowDataGrid extends BaseComponent {
 
   public render() {
     this.renderGridList();
+    this.setScrollBar();
   }
 
   protected renderGridList() {
     const gridListDomElement = this.gridList.getDomElement();
     gridListDomElement.innerHTML = "";
 
-    // adding header:
+    // adding header ----------------------------------------------------------------:
     const gridHeaderElement = document.createElement("window-data-grid-header");
-
     this.columns.forEach((column) => {
       if (column.detailOnly ?? false) return;
 
@@ -155,26 +209,44 @@ export class WindowDataGrid extends BaseComponent {
 
     gridListDomElement.append(gridHeaderElement);
 
+    // creating datagrid ----------------------------------------------------------------
     for (let rowInGrid = 0; rowInGrid < this.pageRowCount; rowInGrid++) {
       const renderedRow = this.firstRowInView + rowInGrid;
       if (renderedRow < this.dataSet.length) {
+        // render lines with data
         const data = this.dataSet[renderedRow];
-        const gridRowElement = this.renderDataRow(data, gridListDomElement);
+        const gridRowElement = this.renderDataRow(
+          data,
+          gridListDomElement,
+          rowInGrid
+        );
 
-        if (rowInGrid == this.currentRow) {
+        if (rowInGrid == this.currentRowInView) {
           gridRowElement.classList.add("activeRow");
           this.dataGridDetail.render(data);
         }
+      } else {
+        // render empty lines:
+        const data = new Map<string, any>(); // this.dataSet[renderedRow];
+        const gridRowElement = this.renderDataRow(
+          data,
+          gridListDomElement,
+          rowInGrid
+        );
       }
     }
   }
 
   protected renderDataRow(
     dataRow: GridDataRow,
-    gridListDomElement: HTMLElement
+    gridListDomElement: HTMLElement,
+    rowInGrid: number
   ): HTMLElement {
     const gridRowElement = document.createElement("window-data-grid-row");
+    const emptyRow = dataRow.size == 0;
+    if (emptyRow) gridRowElement.classList.add("empty-grid-row");
 
+    gridRowElement.setAttribute("rowInView", rowInGrid.toString());
     gridListDomElement.append(gridRowElement);
 
     // preparing data-columns to create row
@@ -187,7 +259,9 @@ export class WindowDataGrid extends BaseComponent {
 
       let cellValue = "";
 
-      if (column.evaluateFunction) {
+      if (emptyRow) {
+        cellValue = "&nbsp;";
+      } else if (column.evaluateFunction) {
         cellValue = column.evaluateFunction(dataRow);
       } else if (column.dataField) {
         cellValue = dataRow.get(column.dataField);
@@ -196,7 +270,7 @@ export class WindowDataGrid extends BaseComponent {
       }
 
       // formatting vith type
-      if (column.type) {
+      if (column.type && !emptyRow) {
         cellValue = this.formatValue(cellValue, column.type);
       }
 
@@ -228,8 +302,6 @@ export class WindowDataGrid extends BaseComponent {
   }
 
   public handleKeyDown(e: KeyboardEvent) {
-    const oldCurentRow = this.currentRow;
-
     let forceRender = false;
     const keyCode =
       (e.ctrlKey ? "ctrl_" : "") +
@@ -237,7 +309,8 @@ export class WindowDataGrid extends BaseComponent {
       (e.altKey ? "alt_" : "") +
       e.code;
 
-    console.log("keycode", keyCode);
+    const oldCurentRow = this.currentRowInView;
+    // console.log("keycode", keyCode);
     switch (keyCode) {
       case "alt_ArrowDown":
         this.pageRowCount += this.pageRowCount < 30 ? 1 : 0;
@@ -248,27 +321,28 @@ export class WindowDataGrid extends BaseComponent {
         forceRender = true;
         break;
       case "ArrowDown":
-        this.currentRow++;
+        this.currentRowInView++;
         break;
       case "ArrowUp":
-        this.currentRow--;
+        this.currentRowInView--;
         break;
       case "PageUp":
-        this.currentRow -= this.pageRowCount;
+        this.currentRowInView -= this.pageRowCount;
         break;
       case "PageDown":
-        this.currentRow += this.pageRowCount;
+        this.currentRowInView += this.pageRowCount;
         break;
 
       case "Home":
-        this.currentRow = 0;
+        this.currentRowInView = 0;
         this.firstRowInView = 0;
         forceRender = true;
         break;
 
       case "End":
-        this.currentRow = this.rowCount - 1;
-        this.firstRowInView = this.rowCount - this.pageRowCount - 1;
+        this.currentRowInView = Math.min(this.pageRowCount, this.rowCount - 1);
+        this.firstRowInView =
+          this.rowCount - 1 - Math.min(this.pageRowCount, this.rowCount - 1);
         forceRender = true;
         break;
       case "F8":
@@ -279,10 +353,10 @@ export class WindowDataGrid extends BaseComponent {
         this.callBack(VIEWMODE.EDIT, EDITMODE.NEW);
         break;
       case "F9":
-        this.callBack(VIEWMODE.EDIT, EDITMODE.MOD, this.currentRow);
+        this.callBack(VIEWMODE.EDIT, EDITMODE.MOD, this.currentRowInView);
         break;
       case "Del":
-        this.callBack(VIEWMODE.DETAIL, EDITMODE.DEL, this.currentRow);
+        this.callBack(VIEWMODE.DETAIL, EDITMODE.DEL, this.currentRowInView);
         break;
       case "Space":
         this.callBack(VIEWMODE.DETAIL, 0);
@@ -293,28 +367,52 @@ export class WindowDataGrid extends BaseComponent {
         break;
     }
 
-    if (this.currentRow < 0 && this.firstRowInView == 0) this.currentRow = 0;
-    if (this.currentRow > this.rowCount - 1)
-      this.currentRow = this.rowCount - 1;
+    forceRender = forceRender || oldCurentRow != this.currentRowInView;
+    this.setRow(forceRender);
 
-    if (oldCurentRow != this.currentRow || forceRender) {
-      if (this.currentRow < 0) {
-        this.firstRowInView--;
-        this.currentRow;
-        this.currentRow = 0;
-      }
-
-      if (this.currentRow > this.pageRowCount - 1) {
-        this.firstRowInView++;
-        this.currentRow;
-        this.currentRow = this.pageRowCount - 1;
-      }
-      this.render();
-    }
     // console.log("Window datagrid #handleKeypress", e);
 
     // e.preventDefault();
     // e.stopPropagation();
+  }
+
+  setRow(forceRender: boolean = true) {
+    // const oldCurentRow = this.currentRow;
+
+    if (this.currentRowInView < 0 && this.firstRowInView == 0) {
+      this.currentRowInView = 0;
+    }
+
+    if (this.currentRowInView + this.firstRowInView > this.rowCount - 1) {
+      this.currentRowInView = this.rowCount - 1 - this.firstRowInView;
+    }
+
+    if (forceRender) {
+      if (this.currentRowInView < 0) {
+        this.firstRowInView--;
+        this.currentRowInView;
+        this.currentRowInView = 0;
+      }
+
+      if (this.currentRowInView > this.pageRowCount - 1) {
+        this.firstRowInView++;
+        this.currentRowInView;
+        this.currentRowInView = this.pageRowCount - 1;
+      }
+    }
+
+    this.currentRow = this.firstRowInView + this.currentRowInView;
+
+    // console.log(
+    //   "grid:  setrow",
+    //   this.rowCount,
+    //   this.currentRow,
+    //   this.currentRowInView,
+    //   this.firstRowInView,
+    //   this.pageRowCount
+    // );
+    
+    this.render();1
   }
 
   public newRecord() {
@@ -333,15 +431,26 @@ export class WindowDataGrid extends BaseComponent {
       this.dataGridOptions.delRecordFunction();
   }
 
+  /**
+   * Getting current record data from datagrids dataset.
+   *
+   * @returns
+   */
   public getCurrentRecord(): any {
     const data = this.dataSet[this.currentRow];
     return data;
   }
 
+  /**
+   *
+   */
   public detailRecord() {
     console.log("detailRecord");
   }
 
+  /**
+   * Show/hide search input
+   */
   public toggleSearchInput() {
     if (this.searchInputVisible) {
       this.searchInputVisible = false;
@@ -352,5 +461,60 @@ export class WindowDataGrid extends BaseComponent {
       this.searchInput.show(true, 1);
       this.searchInput.setFocus(true);
     }
+  }
+
+  /**
+   * Handling typeing of input via delayed action
+   */
+  protected handleSearchInputChange() {
+    if (this.searchInputTimer) {
+      clearTimeout(this.searchInputTimer);
+    }
+    this.searchInputTimer = setTimeout(() => {
+      const newSearchFilter = this.searchInput.getValue();
+      if (this.searhFilter != newSearchFilter) {
+        this.searhFilter = newSearchFilter;
+        console.log("searchfilter", this.searhFilter);
+        this.currentRowInView = 0;
+        this.firstRowInView = 0;
+        this.reloadListData(this.searhFilter);
+        this.setScrollBar();
+      }
+    }, 500);
+  }
+
+  /**
+   * Handling mouse wheel event, scrolling list up/down
+   * @param event
+   */
+  protected handleMouseWheel(event: WheelEvent) {
+    const treshold = 10;
+    const yDirection = event.deltaY as number;
+    if (Math.abs(yDirection) > treshold) {
+      this.currentRowInView += Math.sign(yDirection);
+
+      const forceRender = true;
+      this.setRow(forceRender);
+    }
+  }
+
+  protected setScrollBar() {
+    const dataLength = this.dataSet.length ?? 1;
+    const h = (dataLength / this.pageRowCount) * 100;    
+
+    this.dataGridScrollbarElementContent.style.height = h.toString() + "%";
+
+    const heightInPixels = this.dataGridScrollbarElementContent.offsetHeight;
+    const scrollPos = (this.firstRowInView / dataLength) * heightInPixels;
+    this.dataGridScrollbarElement.scrollTo(0, scrollPos);
+  }
+
+  protected handleScrollbarChange(e: Event) {
+    const heightInPixels = this.dataGridScrollbarElementContent.offsetHeight;
+    const dataLength = this.dataSet.length ?? 1;
+    const scrollpos = this.dataGridScrollbarElement.scrollTop;    
+    const newFirstLine = Math.round((dataLength * scrollpos) / heightInPixels);
+    this.firstRowInView = newFirstLine;
+    this.setRow();
   }
 }
