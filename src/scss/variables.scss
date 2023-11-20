@@ -27,7 +27,11 @@ $buttonWarningColor:#fa7;
 
 // DESKTOP
 
-$dekstopHeaderColor:$color-secondary;
+// $dekstopHeaderColor:$color-secondary;
+$dekstopHeaderColor:rgba(0,30,30,0.8);
+$menubarBackGroundColor:rgba(0,30,30,0.8);
+$destopTrayBarColor:rgba(0,30,30,0.8);
+
 $desktopHeaderHeight: 60px;
 $desktopMenuBarHeight: 30px;
 $desktopTrayBarHeight: 30px;
@@ -39,7 +43,7 @@ $windowHeaderHeihgt: 35px;
 $windowFooterheight: 25px;
 $windowHeaderColour:$color-primary; /* #574; */
 $windowHeaderActiveColour: $color-primary-light; /* #7a3; */
-$windowBorderRadius :3px;
+$windowBorderRadius :5px;
 
 // MENU
 

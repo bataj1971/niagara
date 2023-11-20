@@ -139,9 +139,7 @@ export class WindowDataGrid extends BaseComponent {
     this.gridList.getDomElement().onmousedown =
       this.handleGridListComponentClick.bind(this);
 
-    this.gridList
-      .getDomElement()
-      .addEventListener("wheel", this.handleMouseWheel.bind(this));
+    this.gridList.getDomElement().addEventListener("wheel", this.handleMouseWheel.bind(this), { passive: true });
 
     // this.addChild(this.gridList);
     this.dataGridListContainer.addChild(this.gridList);

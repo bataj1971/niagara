@@ -6,7 +6,7 @@ desktop-tray-bar-component {
   bottom: $desktopFooterHeight;
   left: 0;
   right: 0;
-  background-color: #444;
+  background-color: $destopTrayBarColor;
   color: #bbb;
 }
 
